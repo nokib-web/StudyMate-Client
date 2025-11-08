@@ -5,6 +5,11 @@ import Home from "../Pages/Home/Home";
 import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 import FindPartners from "../Pages/FindPartners/FindPartners";
+import CreatePartnerProfile from "../Pages/CreatePartnerProfile/CreatePartnerProfile";
+
+import MyConnections from "../Pages/MyConnections/MyConnections";
+
+import PrivateRoute from "./PrivateRoute";
 
 
 
@@ -29,14 +34,14 @@ const router = createBrowserRouter([
                 path: '/register',
                 Component: Register
             },
-            // {
-            //     path: '/create-partner-profile',
-            //     element: <PrivateRoutes><CreatePartnerProfile></CreatePartnerProfile></PrivateRoutes>
-            // },
-            // {
-            //     path: '/my-connections',
-            //     element: <PrivateRoutes><MyConnections></MyConnections></PrivateRoutes>
-            // }
+            {
+                path: '/create-partner-profile',
+                element: <PrivateRoute><CreatePartnerProfile></CreatePartnerProfile></PrivateRoute>
+            },
+            {
+                path: '/my-connections',
+                element: <PrivateRoute><MyConnections></MyConnections></PrivateRoute>
+            }
 
         ]
     },
