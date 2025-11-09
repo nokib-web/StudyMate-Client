@@ -2,12 +2,16 @@ import { useContext, useState } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router";
-import useAxios from "../../hooks/useAxios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+
+// import useAxios from "../../hooks/useAxios";
+
 ;
 
 const CreatePartnerProfile = () => {
     const { user } = useContext(AuthContext);
-    const axiosInstance = useAxios();
+    // const axiosInstance = useAxios();
+    const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: "",
@@ -31,7 +35,7 @@ const CreatePartnerProfile = () => {
         e.preventDefault();
 
         try {
-            const res = await axiosInstance.post("/partners", formData);
+            const res = await axiosSecure.post("/partners", formData);
 
             console.log(formData)
 

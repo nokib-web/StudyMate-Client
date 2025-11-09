@@ -15,7 +15,7 @@ const MyConnections = () => {
     useEffect(() => {
         if (!userLoading && user?.email) {
             axiosSecure
-                .get(`/connections/${user.email}`)
+                .get(`/connections?email=${user.email}`)
                 .then((res) => setConnections(res.data))
                 .catch((err) => console.error("Fetch connections error:", err));
         }
@@ -158,7 +158,7 @@ const MyConnections = () => {
             </div>
 
             <div className=" text-sm text-base-content/80 mb-4">
-                <p className="text-sm text-base-content/70"><span className="font: font-semibold"> Subject: </span>{connection.subject}</p>
+                <p className="text-sm text-base-content/70"><span className="font-semibold"> Subject: </span>{connection.subject}</p>
               <span className="font-semibold">Study Mode:</span>
               <span>{connection.studyMode}</span>
             </div>
