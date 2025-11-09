@@ -1,15 +1,16 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import PartnerCard from '../../components/PartnerCard';
+import useAxios from '../../hooks/useAxios';
 
 const FindPartners = () => {
     const [partners, setPartners] = useState([]);
+    const axiosInstance = useAxios()
     console.log(partners);
 
 
     useEffect(() => {
-        // replace with your real backend URL
-        axios.get("http://localhost:3000/partners")
+        
+        axiosInstance.get("/partners")
             .then(res => {
                 setPartners(res.data);
                 console.log(res.data);

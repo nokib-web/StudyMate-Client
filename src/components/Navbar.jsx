@@ -1,13 +1,14 @@
 
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router';
-import { AuthContext } from '../context/AuthContext';
 import { IoLogIn, IoLogOut } from 'react-icons/io5';
 import { FaGear } from 'react-icons/fa6';
 import { FaUser } from 'react-icons/fa';
+import useAuth from '../hooks/useAuth';
 
 const Navbar = () => {
-    const { user, logout } = use(AuthContext)
+    // const { user, logout } = use(AuthContext)
+    const { user, logout } = useAuth()
 
     const [theme, setTheme] = useState(localStorage.getItem('theme') || "light")
 

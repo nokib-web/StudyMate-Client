@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-
-import { use } from 'react';
-
 import { FcGoogle } from 'react-icons/fc';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { AuthContext } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
 
 
 
 const Register = () => {
 
-    const { createUsers, setUser, updateUser, signInWithGoogle } = use(AuthContext);
+    // const { createUsers, setUser, updateUser, signInWithGoogle } = use(AuthContext);
+    const { createUsers, setUser, updateUser, signInWithGoogle } = useAuth();
     const [error, setError] = useState('')
     const [showPassword, setShowPassword] = useState(false);
 

@@ -1,13 +1,15 @@
-import React, { use, useRef, useState } from 'react';
+import React, {  useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 
 import { FcGoogle } from 'react-icons/fc';
 import { AuthContext } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
 
 
 const Login = () => {
 
-    const { userSignIn, signInWithGoogle } = use(AuthContext);
+    // const { userSignIn, signInWithGoogle } = use(AuthContext);
+    const { userSignIn, signInWithGoogle } = useAuth();
     const [error, setError] = useState('')
     const emailRef = useRef();
     const [email, setEmail] = useState("");
@@ -53,6 +55,9 @@ const Login = () => {
 
 
     }
+
+ 
+
 
 
 
