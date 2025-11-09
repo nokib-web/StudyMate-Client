@@ -1,6 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 
 const PartnerCard = ({ partner }) => {
+    const navigate = useNavigate();
+
+    const handleViewProfile = () => {
+        navigate(`/find-partners/${partner._id}`);
+    };
     return (
         <div className="card bg-base-100 shadow-sm">
             <figure className="px-10 pt-10">
@@ -13,7 +19,7 @@ const PartnerCard = ({ partner }) => {
                 <h2 className="card-title">{partner.name}</h2>
                 <p>{partner.description}</p>
                 <div className="">
-                    <button className="btn w-full btn-outline">View Profile</button>
+                    <button onClick={handleViewProfile} className="btn w-full btn-outline">View Profile</button>
                 </div>
             </div>
         </div>

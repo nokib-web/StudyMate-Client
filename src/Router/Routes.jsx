@@ -10,6 +10,7 @@ import CreatePartnerProfile from "../Pages/CreatePartnerProfile/CreatePartnerPro
 import MyConnections from "../Pages/MyConnections/MyConnections";
 
 import PrivateRoute from "./PrivateRoute";
+import PartnerDetails from "../Pages/FindPartners/PartnerDetails";
 
 
 
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
             {
                 path: '/find-partners',
                 Component: FindPartners
+            },
+            {
+                path: '/find-partners/:id',
+                element: <PrivateRoute><PartnerDetails></PartnerDetails></PrivateRoute>
             },
             {
                 path: '/login',
