@@ -11,6 +11,7 @@ import MyConnections from "../Pages/MyConnections/MyConnections";
 
 import PrivateRoute from "./PrivateRoute";
 import PartnerDetails from "../Pages/FindPartners/PartnerDetails";
+import ProfilePage from "../Pages/MyProfile/ProfilePage";
 
 
 
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
             {
                 path: '/my-connections',
                 element: <PrivateRoute><MyConnections></MyConnections></PrivateRoute>
+            },
+            {
+                path: '/my-profile',
+               element: <PrivateRoute><ProfilePage></ProfilePage></PrivateRoute>
             }
 
         ]

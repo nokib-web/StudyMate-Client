@@ -8,22 +8,48 @@ const PartnerCard = ({ partner }) => {
         navigate(`/find-partners/${partner._id}`);
     };
     return (
-        <div className="card bg-base-100 shadow-sm">
-            <figure className="px-10 pt-10">
+        <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+            {/* Image */}
+            <div className="">
                 <img
-                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                    alt="Shoes"
-                    className="rounded-xl" />
-            </figure>
-            <div className="card-body items-center text-center">
-                <h2 className="card-title">{partner.name}</h2>
-                <p>{partner.description}</p>
-                <div className="">
-                    <button onClick={handleViewProfile} className="btn w-full btn-outline">View Profile</button>
+                    src={
+                        partner.profileImage ||
+                        "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                    }
+                    alt={partner.name}
+                    className="w-full h-48 object-cover"
+                />
+
+            </div>
+
+            {/* Content */}
+            <div className="p-5 text-center">
+                <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                    {partner.name}
+                </h2>
+                <span className=" bg-amber-400 text-white text-xs px-3 py-1 my-2 rounded-full shadow">
+                    {partner.experience || "Beginner"}
+                </span>
+
+
+                <div className="flex justify-between gap-4 text-gray-600 text-sm mb-4">
+
+                    <p> <span>Subject:</span> {partner.subject}</p>
+
+                    <p> <span>Study Mode:</span> {partner.studyMode}</p>
+                  
                 </div>
+
+                <button
+                    onClick={handleViewProfile}
+                    className="btn btn-sm btn-outline border-blue-500 w-full font-medium hover:bg-indigo-600 hover:text-white transition-all"
+                >
+                    View Profile
+                </button>
             </div>
         </div>
     );
+
 };
 
 export default PartnerCard;

@@ -11,7 +11,7 @@ const MyConnections = () => {
     const [selected, setSelected] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    // ✅ Fetch user’s sent partner requests
+    //  Fetch user’s sent partner requests
     useEffect(() => {
         if (!userLoading && user?.email) {
             axiosSecure
@@ -21,7 +21,7 @@ const MyConnections = () => {
         }
     }, [user, userLoading, axiosSecure]);
 
-    // ✅ Handle Delete
+    //  Handle Delete
     const handleDelete = (id) => {
         Swal.fire({
             title: "Are you sure?",
@@ -107,7 +107,7 @@ const MyConnections = () => {
             >
               <td className="flex items-center gap-4 py-3">
                 <img
-                  src={connection?.profileimage || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
+                  src={connection?.profileImage || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
                   alt={connection.name}
                   className="w-12 h-12 rounded-full object-cover border border-base-300"
                 />
@@ -135,7 +135,7 @@ const MyConnections = () => {
       </table>
     </div>
 
-    {/* ✅ Mobile & Tablet Card View */}
+    {/*  Mobile & Tablet Card View */}
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:hidden mt-4">
       {connections.map((connection) => (
         <div
@@ -145,7 +145,7 @@ const MyConnections = () => {
           <div className="card-body">
             <div className="flex items-center gap-4 mb-3">
               <img
-                src={connection?.profileimage || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
+                src={connection?.profileImage || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
                 alt={connection.name}
                 className="w-14 h-14 rounded-full border border-base-300 object-cover"
               />
@@ -182,7 +182,7 @@ const MyConnections = () => {
       ))}
     </div>
 
-    {/* ✅ Update Modal */}
+    {/*  Update Modal */}
     {selected && (
       <dialog id="updateModal" open className="modal">
         <div className="modal-box rounded-2xl">

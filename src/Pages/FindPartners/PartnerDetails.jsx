@@ -39,10 +39,11 @@ const PartnerDetails = () => {
                 partnerId: partner._id,
                 partnerName: partner.name,
                 partnerEmail: partner.email,
-                profileimage: partner.profileimage,
+                profileImage: partner.profileImage,
                 subject: partner.subject,
                 studyMode: partner.studyMode,
                 senderEmail: user.email,
+                experienceLevel: partner.experience,
                 createdAt: new Date(),
             };
 
@@ -92,7 +93,7 @@ const PartnerDetails = () => {
             <div className="card bg-base-100 shadow-xl">
                 <div className="card-body items-center text-center">
                     <img
-                        src={partner.profileimage}
+                        src={partner.profileImage}
                         alt={partner.name}
                         className="w-32 h-32 rounded-full border mb-4"
                     />
@@ -104,8 +105,8 @@ const PartnerDetails = () => {
                         <p><strong>Study Mode:</strong> {partner.studyMode}</p>
                         <p><strong>Availability:</strong> {partner.availability}</p>
                         <p><strong>Location:</strong> {partner.location}</p>
-                        <p><strong>Experience:</strong> {partner.experienceLevel}</p>
-                        <p><strong>Rating:</strong> ⭐ {partner.rating}</p>
+                        <p><strong>Experience:</strong> {partner.experience}</p>
+                        <p><strong>Rating:</strong>  {partner.rating}</p>
                         <p><strong>Partner Count:</strong> {partner.partnerCount || 0}</p>
                     </div>
 
