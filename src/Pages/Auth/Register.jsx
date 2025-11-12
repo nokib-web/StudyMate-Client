@@ -196,7 +196,7 @@ const Register = () => {
                                 {error && <p className="text-red-500 text-sm">{error}</p>}
 
                                 {/* Buttons */}
-                                <button type="submit" className="btn btn-neutral mt-4 w-full">
+                                <button type="submit" className="btn btn-primary mt-4 w-full">
                                     Register
                                 </button>
                                 <button

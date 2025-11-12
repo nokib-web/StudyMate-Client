@@ -11,7 +11,7 @@ const Footer = () => {
                 <nav>
                   <Link to={'/'}> <p className=" font-bold flex items-center normal-case text-xl">
                                           <img src={logo} alt="StudyMate Logo" className="inline-block rounded-full w-8 h-8 mr-2" />
-                                          Study<span className='text-primary'>Mate</span></p> </Link>
+                                          Study<span className='text-secondary'>Mate</span></p> </Link>
                     <p>
                         Your trusted companion in  academic <br /> excellence.
                         Empowering students <br /> worldwide to achieve their study goals.

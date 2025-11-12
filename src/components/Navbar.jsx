@@ -57,7 +57,7 @@ const Navbar = () => {
                     </div>
                     <Link to={'/'}> <p className=" font-bold flex items-center normal-case text-xl">
                         <img src={logo} alt="StudyMate Logo" className="inline-block rounded-full w-8 h-8 mr-2" />
-                        Study<span className='text-primary'>Mate</span></p> </Link>
+                        Study<span className='text-secondary'>Mate</span></p> </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
@@ -113,7 +113,7 @@ const Navbar = () => {
                                 <li>
                                     <button
                                         onClick={handleLogout}
-                                        className="btn btn-sm m-4 bg-linear-to-r from-[#960ae7] to-[#6366F1] text-white"
+                                        className="btn btn-sm m-4 bg-primary text-white"
                                     >
                                         <IoLogOut /> Logout
                                     </button>
@@ -121,7 +121,7 @@ const Navbar = () => {
                             </ul>
                         </div>
                     ) : (
-                        <Link to={'/login'}><li className="btn ">Login</li></Link>
+                        <Link to={'/login'}><li className="btn btn-primary ">Login</li></Link>
                     )}
                 </div>
             </div>

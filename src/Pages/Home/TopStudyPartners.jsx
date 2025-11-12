@@ -33,7 +33,7 @@ const TopStudyPartners = () => {
  return (
   <section className="my-20 px-8 max-w-7xl mx-auto">
     <header>
-      <h2 className="text-center text-4xl font-extrabold mb-12 text-indigo-700">
+      <h2 className="text-center text-4xl font-extrabold mb-12 text-primary">
          Top Study Partners
       </h2>
     </header>
@@ -59,7 +59,7 @@ const TopStudyPartners = () => {
               />
             </figure>
 
-            <div className="text-center flex-grow">
+            <div className="text-center grow">
               <h3 className="text-2xl font-semibold text-gray-800 mb-1">{partner.name}</h3>
               <p className="text-sm text-indigo-600 font-medium mb-2">{partner.subject}</p>
 
@@ -80,7 +80,7 @@ const TopStudyPartners = () => {
 
             <button
               onClick={() => handleViewProfile(partner._id)}
-              className="btn btn-indigo btn-sm rounded-full px-6 py-2 shadow-sm hover:shadow-md transition"
+              className="btn btn-indigo btn-sm rounded-full px-6 py-2 shadow-sm hover:shadow-md transition hover:btn-primary"
               type="button"
             >
               View Profile
