@@ -46,7 +46,7 @@ const MyConnections = () => {
         });
     };
 
-    // ✅ Handle Update
+    //  Handle Update
     const handleUpdate = (e) => {
         e.preventDefault();
         setLoading(true);
@@ -88,7 +88,7 @@ const MyConnections = () => {
       My Connections
     </h2>
 
-    {/* ✅ Desktop / Laptop Table View */}
+    {/*  Desktop / Laptop Table View */}
     <div className="hidden md:block overflow-x-auto rounded-2xl shadow-md">
       <table className="table w-full text-sm lg:text-base">
         <thead className="bg-base-200 text-base-content">

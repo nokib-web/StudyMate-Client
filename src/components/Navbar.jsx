@@ -1,10 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router';
-import { IoLogIn, IoLogOut } from 'react-icons/io5';
-import { FaGear } from 'react-icons/fa6';
+import {  IoLogOut } from 'react-icons/io5';
 import { FaUser } from 'react-icons/fa';
 import useAuth from '../hooks/useAuth';
+import logo from '../assets/studyMate.png'
 
 const Navbar = () => {
     // const { user, logout } = use(AuthContext)
@@ -55,7 +55,9 @@ const Navbar = () => {
 
                         </ul>
                     </div>
-                    <Link to={'/'}> <p className=" font-bold normal-case text-xl">Study<span className='text-primary'>Mate</span></p> </Link>
+                    <Link to={'/'}> <p className=" font-bold flex items-center normal-case text-xl">
+                        <img src={logo} alt="StudyMate Logo" className="inline-block rounded-full w-8 h-8 mr-2" />
+                        Study<span className='text-primary'>Mate</span></p> </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">

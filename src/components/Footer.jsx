@@ -2,13 +2,16 @@ import React from 'react';
 import { FaEnvelope, FaFacebook, FaInstagram, FaMapMarkerAlt, FaPhoneAlt,  } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { Link } from 'react-router';
+import logo from '../assets/studyMate.png'
 
 const Footer = () => {
     return (
          <div>
             <footer className="footer sm:footer-horizontal bg-base-300 text-base-content p-10">
                 <nav>
-                    <Link to={'/'}><p className=" font-bold text-xl">Study<span className='text-primary'>Mate</span></p></Link>
+                  <Link to={'/'}> <p className=" font-bold flex items-center normal-case text-xl">
+                                          <img src={logo} alt="StudyMate Logo" className="inline-block rounded-full w-8 h-8 mr-2" />
+                                          Study<span className='text-primary'>Mate</span></p> </Link>
                     <p>
                         Your trusted companion in  academic <br /> excellence.
                         Empowering students <br /> worldwide to achieve their study goals.

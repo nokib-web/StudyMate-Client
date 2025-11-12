@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { FaSearch, FaFilter } from "react-icons/fa";
 import PartnerCard from "../../components/PartnerCard";
 import useAxios from "../../hooks/useAxios";
+import useAuth from "../../hooks/useAuth";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const FindPartners = () => {
     const [partners, setPartners] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [experienceFilter, setExperienceFilter] = useState(""); 
     const axiosInstance = useAxios();
+    const {loading} = useAuth();
 
     useEffect(() => {
         axiosInstance
@@ -30,6 +33,14 @@ const FindPartners = () => {
             : true;
         return matchesSubject && matchesExperience;
     });
+
+     if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <LoadingSpinner message="Finding study partners..." />
+      </div>
+    );
+  }
 
     return (
         <div className="my-10 px-6">

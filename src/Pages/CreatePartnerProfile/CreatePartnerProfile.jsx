@@ -18,9 +18,9 @@ const CreatePartnerProfile = () => {
         profileImage: "",
         subject: "",
         studyMode: "",
-        availability: "",
+        availabilityTime: "",
         location: "",
-        experience: "",
+        experienceLevel: "",
         rating: "",
         partnerCount: 0,
         email: user?.email || "",
@@ -141,9 +141,9 @@ const CreatePartnerProfile = () => {
                     </label>
                     <input
                         type="text"
-                        name="availability"
+                        name="availabilityTime"
                         placeholder="e.g., Evening 6–9 PM"
-                        value={formData.availability}
+                        value={formData.availabilityTime}
                         onChange={handleChange}
                         className="input input-bordered w-full"
                         required
@@ -172,8 +172,8 @@ const CreatePartnerProfile = () => {
                         <span className="label-text font-semibold">Experience Level</span>
                     </label>
                     <select
-                        name="experience"
-                        value={formData.experience}
+                        name="experienceLevel"
+                        value={formData.experienceLevel}
                         onChange={handleChange}
                         className="select select-bordered w-full"
                         required

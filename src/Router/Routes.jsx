@@ -12,12 +12,16 @@ import MyConnections from "../Pages/MyConnections/MyConnections";
 import PrivateRoute from "./PrivateRoute";
 import PartnerDetails from "../Pages/FindPartners/PartnerDetails";
 import ProfilePage from "../Pages/MyProfile/ProfilePage";
+import NotFoundPage from "../components/NotFoundPage";
+
 
 
 
 const router = createBrowserRouter([
     {
         path: "/",
+        
+        errorElement: <NotFoundPage />,
         Component: MainLayout,
         children: [
             {
@@ -51,6 +55,11 @@ const router = createBrowserRouter([
             {
                 path: '/my-profile',
                element: <PrivateRoute><ProfilePage></ProfilePage></PrivateRoute>
+            },
+        
+            {
+                path: '*',
+                Component: NotFoundPage
             }
 
         ]

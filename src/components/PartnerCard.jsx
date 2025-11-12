@@ -28,7 +28,7 @@ const PartnerCard = ({ partner }) => {
                     {partner.name}
                 </h2>
                 <span className=" bg-amber-400 text-white text-xs px-3 py-1 my-2 rounded-full shadow">
-                    {partner.experience || "Beginner"}
+                    {partner.experienceLevel || "Beginner"}
                 </span>
 
 

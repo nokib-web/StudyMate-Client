@@ -14,7 +14,7 @@ const PartnerDetails = () => {
     const [partner, setPartner] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // ✅ Fetch partner details by ID
+    //  Fetch partner details by ID
     useEffect(() => {
         if (id) {
             axiosSecure
@@ -25,7 +25,7 @@ const PartnerDetails = () => {
         }
     }, [id, axiosSecure]);
 
-    // ✅ Handle "Send Partner Request"
+    //  Handle "Send Partner Request"
     const handleSendRequest = async () => {
         if (!user) {
             Swal.fire("Please login first!", "", "warning");
@@ -34,7 +34,7 @@ const PartnerDetails = () => {
         }
 
         try {
-            // 1️⃣ Add new connection data
+            // Add new connection data
             const requestData = {
                 partnerId: partner._id,
                 partnerName: partner.name,
@@ -49,12 +49,10 @@ const PartnerDetails = () => {
 
             await axiosSecure.post("/connections", requestData);
 
-            // 2️⃣ Increase partner count
-            await axiosSecure.patch(`/partners/${partner._id}`, {
-                partnerCount: (partner.partnerCount || 0) + 1,
-            });
+            //  Increase partner count
+           await axiosSecure.patch(`/partners/${partner._id}`);
 
-            // 3️⃣ Success alert
+            //  Success alert
             Swal.fire({
                 icon: "success",
                 title: "Request Sent!",
@@ -63,7 +61,7 @@ const PartnerDetails = () => {
                 timer: 1500,
             });
 
-            // 4️⃣ Update UI instantly
+            //  Update UI instantly
             setPartner((prev) => ({
                 ...prev,
                 partnerCount: (prev.partnerCount || 0) + 1,
@@ -87,41 +85,73 @@ const PartnerDetails = () => {
     }
 
     console.log(partner);
-
-    return (
-        <div className="max-w-4xl mx-auto p-6">
-            <div className="card bg-base-100 shadow-xl">
-                <div className="card-body items-center text-center">
-                    <img
-                        src={partner.profileImage}
-                        alt={partner.name}
-                        className="w-32 h-32 rounded-full border mb-4"
-                    />
-                    <h2 className="card-title text-2xl font-bold">{partner.name}</h2>
-                    <p className="text-sm text-gray-500">{partner.subject}</p>
-                    <div className="divider"></div>
-
-                    <div className="grid grid-cols-2 gap-4 text-left w-full max-w-md">
-                        <p><strong>Study Mode:</strong> {partner.studyMode}</p>
-                        <p><strong>Availability:</strong> {partner.availability}</p>
-                        <p><strong>Location:</strong> {partner.location}</p>
-                        <p><strong>Experience:</strong> {partner.experience}</p>
-                        <p><strong>Rating:</strong>  {partner.rating}</p>
-                        <p><strong>Partner Count:</strong> {partner.partnerCount || 0}</p>
-                    </div>
-
-                    <div className="mt-6">
-                        <button
-                            onClick={handleSendRequest}
-                            className="btn btn-primary"
-                        >
-                            Send Partner Request
-                        </button>
-                    </div>
-                </div>
-            </div>
+return (
+  <div className="max-w-4xl mx-auto p-6">
+    <div className="card bg-base-100 shadow-2xl border border-base-200 rounded-3xl overflow-hidden">
+      <div className="card-body items-center text-center space-y-6">
+        {/* Profile Image */}
+        <div className="relative">
+          <img
+            src={partner.profileImage}
+            alt={partner.name}
+            className="w-36 h-36 rounded-full object-cover border-4 border-primary/30 shadow-lg"
+          />
         </div>
-    );
+
+        {/* Name & Subject */}
+        <div>
+          <h2 className="text-3xl font-bold text-base-content mb-1">
+            {partner.name}
+          </h2>
+          <p className="text-lg text-primary/80 font-medium tracking-wide">
+            {partner.subject}
+          </p>
+        </div>
+
+        <div className="divider w-2/3 mx-auto"></div>
+
+        {/* Partner Details */}
+        <div className="grid grid-cols-2 gap-y-3 gap-x-8 text-left w-full max-w-md">
+          <p>
+            <span className="font-semibold text-base-content/80">Study Mode:</span>{" "}
+            <span className="text-base-content/70">{partner.studyMode}</span>
+          </p>
+          <p>
+            <span className="font-semibold text-base-content/80">Availability:</span>{" "}
+            <span className="text-base-content/70">{partner.availabilityTime}</span>
+          </p>
+          <p>
+            <span className="font-semibold text-base-content/80">Location:</span>{" "}
+            <span className="text-base-content/70">{partner.location}</span>
+          </p>
+          <p>
+            <span className="font-semibold text-base-content/80">Experience:</span>{" "}
+            <span className="text-base-content/70">{partner.experienceLevel}</span>
+          </p>
+          <p>
+            <span className="font-semibold text-base-content/80">Rating:</span>{" "}
+            <span className="text-yellow-500 font-medium">{partner.rating}</span>
+          </p>
+          <p>
+            <span className="font-semibold text-base-content/80">Partner Count:</span>{" "}
+            <span className="text-base-content/70">{partner.partnerCount || 0}</span>
+          </p>
+        </div>
+
+        {/* Action Button */}
+        <div className="mt-6">
+          <button
+            onClick={handleSendRequest}
+            className="btn btn-primary px-10 text-base font-semibold shadow-md hover:scale-105 transition-transform"
+          >
+            Send Partner Request
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 };
 
 export default PartnerDetails;
