@@ -64,11 +64,7 @@ const Navbar = () => {
                         {links}
                     </ul>
                 </div>
-                {/* <div className="navbar-end">
-
-                    <Link to={'/login'}><li className="btn ">Login</li></Link>
-
-                </div> */}
+            
                 <div className="navbar-end gap-3">
                     {user ? (
                         <div className="dropdown dropdown-end z-50">

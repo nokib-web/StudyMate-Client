@@ -22,10 +22,10 @@ const Footer = () => {
                 </nav>
                 <nav>
                     <h6 className="footer-title">Quick Links</h6>
-                    <a className="link link-hover">Home</a>
-                    <a className="link link-hover">Dashboard</a>
-                    <a className="link link-hover">Login</a>
-                    <a className="link link-hover">Register</a>
+                    <Link to="/" className="link link-hover">Home</Link>
+                    <Link to="/my-profile" className="link link-hover">Dashboard</Link>
+                    <Link to="/login" className="link link-hover">Login</Link>
+                    <Link to="/register" className="link link-hover">Register</Link>
                 </nav>
                 
                 <nav>

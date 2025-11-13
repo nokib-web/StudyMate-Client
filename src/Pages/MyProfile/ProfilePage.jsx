@@ -14,7 +14,7 @@ const ProfilePage = () => {
   const [editing, setEditing] = useState(false);
   const [message, setMessage] = useState("");
 
-  // ✅ Fetch user profile from MongoDB
+  // Fetch user profile from MongoDB
   useEffect(() => {
     if (user?.email) {
       axiosInstance
@@ -27,19 +27,19 @@ const ProfilePage = () => {
     }
   }, [user, axiosInstance]);
 
-  // ✅ Update Firebase & MongoDB
+  // Update Firebase & MongoDB
   const handleUpdate = async (e) => {
     e.preventDefault();
     setMessage("");
 
     try {
-      // 1️⃣ Update Firebase (for Auth user)
+      // Update Firebase (for Auth user)
       await updateProfile(auth.currentUser, {
         displayName: updatedProfile.name,
         photoURL: updatedProfile.image,
       });
 
-      // 2️⃣ Update MongoDB record
+      //  Update MongoDB record
       const res = await axiosInstance.put(`/users/${user.email}`, updatedProfile);
 
       if (res.status === 200) {

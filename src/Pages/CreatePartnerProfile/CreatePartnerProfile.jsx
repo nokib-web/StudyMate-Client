@@ -21,10 +21,20 @@ const CreatePartnerProfile = () => {
         availabilityTime: "",
         location: "",
         experienceLevel: "",
-        rating: "",
+        rating: 0,
         partnerCount: 0,
         email: user?.email || "",
     });
+
+      
+        const payload = {
+            ...formData,
+            rating: parseFloat(formData.rating),
+            partnerCount: Number(formData.partnerCount) || 0,
+        };
+        
+
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -35,7 +45,7 @@ const CreatePartnerProfile = () => {
         e.preventDefault();
 
         try {
-            const res = await axiosSecure.post("/partners", formData);
+            const res = await axiosSecure.post("/partners", payload);
 
             console.log(formData)
 
@@ -194,7 +204,7 @@ const CreatePartnerProfile = () => {
                         type="number"
                         name="rating"
                         placeholder="e.g., 4.5"
-                        value={formData.rating}
+                        value={parseFloat(formData.rating)}
                         onChange={handleChange}
                         min="0"
                         max="5"

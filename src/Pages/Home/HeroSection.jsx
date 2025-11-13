@@ -27,7 +27,7 @@ const HeroSection = () => {
         {/* Slide 2 */}
         <div id="slide2" className="carousel-item relative w-full">
           <img
-            src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1500&q=80"
+            src="https://i.ibb.co.com/cSWH2W2L/istockphoto-976795814-612x612.webp"
             className="w-full object-cover h-[400px]"
             alt="Grow together"
           />
