@@ -4,7 +4,7 @@ const LoadingSpinner = () => {
   return (
     <div className="flex items-center justify-center h-screen bg-base-100">
       <div className="flex flex-col items-center gap-3">
-        <FaSpinner className="text-primary text-5xl animate-spin" />
+        <FaSpinner className="my-text-primary text-5xl animate-spin" />
         <p className="text-base-content text-lg font-medium tracking-wide">
           Loading...
         </p>

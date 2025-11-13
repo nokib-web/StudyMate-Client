@@ -58,7 +58,7 @@ const Login = () => {
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
                     <div className="card-body">
-                        <h1 className="text-2xl font-bold mb-2">Login to Your Account</h1>
+                        <h1 className="text-2xl my-text-primary font-bold mb-2">Login to Your Account</h1>
 
                         <form onSubmit={handleLogin}>
                             <fieldset className="fieldset">
@@ -86,16 +86,16 @@ const Login = () => {
 
                                 {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
-                                <button className="btn btn-primary mt-4 w-full">Login</button>
+                                <button className="btn my-btn-primary  mt-4 w-full">Login</button>
                             </fieldset>
                         </form>
 
                         <button
                             onClick={handleGoogleSignIn}
                             type="button"
-                            className="btn btn-outline mt-3 flex items-center gap-2 justify-center"
+                            className="btn my-btn-outline mt-3 flex items-center gap-2 justify-center"
                         >
-                            <FcGoogle className="text-xl" /> Login with Google
+                            <FcGoogle className="text-xl " /> Login with Google
                         </button>
 
                         <p className="mt-3 text-center">

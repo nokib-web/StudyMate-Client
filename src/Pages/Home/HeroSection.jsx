@@ -13,8 +13,8 @@ const HeroSection = () => {
             alt="Find your study partner"
           />
           <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-6">
-            <h2 className="text-4xl font-bold mb-3">Find Your Perfect Study Partner</h2>
-            <p className="text-lg max-w-2xl">
+            <h2 className="text-4xl text-gray-500 font-bold mb-3">Find Your Perfect Study Partner</h2>
+            <p className="text-lg text-gray-400 max-w-2xl">
               Connect with learners who share your goals, subjects, and study habits.
             </p>
           </div>
@@ -32,8 +32,8 @@ const HeroSection = () => {
             alt="Grow together"
           />
           <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-6">
-            <h2 className="text-4xl font-bold mb-3">Learn, Grow, and Achieve Together</h2>
-            <p className="text-lg max-w-2xl">
+            <h2 className="text-4xl text-gray-500 font-bold mb-3">Learn, Grow, and Achieve Together</h2>
+            <p className="text-lg text-gray-400 max-w-2xl">
               Share knowledge, solve problems, and stay motivated in your learning journey.
             </p>
           </div>
@@ -51,8 +51,8 @@ const HeroSection = () => {
             alt="Smart study experience"
           />
           <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-6">
-            <h2 className="text-4xl font-bold mb-3">Experience Smarter Studying</h2>
-            <p className="text-lg max-w-2xl">
+            <h2 className="text-4xl text-gray-500 font-bold mb-3">Experience Smarter Studying</h2>
+            <p className="text-lg text-gray-400 max-w-2xl">
               Join StudyMate to make studying efficient, engaging, and enjoyable.
             </p>
           </div>

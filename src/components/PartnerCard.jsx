@@ -27,7 +27,7 @@ const PartnerCard = ({ partner }) => {
                 <h2 className="text-lg font-semibold text-gray-800 mb-1">
                     {partner.name}
                 </h2>
-                <span className=" bg-secondary text-white text-xs px-3 py-1 my-2 rounded-full shadow">
+                <span className=" my-bg-secondary text-white text-xs px-3 py-1 my-2 rounded-full shadow">
                     {partner.experienceLevel || "Beginner"}
                 </span>
 
@@ -37,12 +37,13 @@ const PartnerCard = ({ partner }) => {
                     <p> <span>Subject:</span> {partner.subject}</p>
 
                     <p> <span>Study Mode:</span> {partner.studyMode}</p>
-                  
+
                 </div>
 
                 <button
                     onClick={handleViewProfile}
-                    className="btn btn-sm btn-outline border-primary w-full font-medium hover:text-white hover:bg-primary transition-all"
+                    className="btn  btn-sm my-btn-primary rounded-full px-6 py-2 shadow-sm hover:shadow-md transition hover:scale-105 hover:my-bg-primary text-white"
+                    type="button"
                 >
                     View Profile
                 </button>

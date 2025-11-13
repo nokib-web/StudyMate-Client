@@ -54,8 +54,8 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100 flex justify-center items-center px-4 py-10">
-      <div className="card bg-white/80 backdrop-blur-md shadow-2xl border border-white/40 w-full max-w-md rounded-3xl">
+    <div className="min-h-screen  flex justify-center items-center px-4 py-10">
+      <div className="card  backdrop-blur-md shadow-2xl r w-full max-w-md rounded-3xl">
         <div className="card-body items-center text-center">
           {/* Profile Image */}
           <img
@@ -65,22 +65,22 @@ const ProfilePage = () => {
               "https://i.ibb.co/2n9fFxx/default-avatar.png"
             }
             alt="Profile"
-            className="w-28 h-28 rounded-full border-4 border-indigo-500 shadow-md object-cover"
+            className="w-28 h-28 border-primary border-my-text-primary rounded-full border-2 shadow-md object-cover"
           />
 
           {!editing ? (
             <>
-              <h2 className="text-2xl font-semibold mt-4 text-gray-800">
+              <h2 className="text-2xl font-semibold mt-4 my-text-primary">
                 {profile.name || user?.displayName || "Unnamed User"}
               </h2>
               <p className="text-gray-600 mt-1 flex items-center justify-center gap-2">
-                <FaEnvelope className="text-indigo-500" />{" "}
+                <FaEnvelope className="my-text-secondary" />{" "}
                 {profile.email || user?.email}
               </p>
 
               <button
                 onClick={() => setEditing(true)}
-                className="btn btn-primary mt-6 flex items-center gap-2 shadow-md hover:shadow-lg transition duration-200"
+                className="btn my-btn-primary mt-6 flex items-center gap-2 shadow-md hover:shadow-lg transition duration-200"
               >
                 <FaUserEdit /> Edit Profile
               </button>
@@ -120,13 +120,13 @@ const ProfilePage = () => {
               </div>
 
               <div className="flex gap-4">
-                <button type="submit" className="btn btn-primary flex-1">
+                <button type="submit" className="btn my-btn-primary flex-1">
                   Save
                 </button>
                 <button
                   type="button"
                   onClick={() => setEditing(false)}
-                  className="btn btn-outline flex-1"
+                  className="btn my-btn-outline flex-1"
                 >
                   Cancel
                 </button>

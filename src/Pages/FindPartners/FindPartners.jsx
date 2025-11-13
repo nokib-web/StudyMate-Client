@@ -44,7 +44,7 @@ const FindPartners = () => {
 
     return (
         <div className="my-10 px-6">
-            <h2 className="text-center text-3xl font-bold mb-8 text-primary">
+            <h2 className="text-center text-3xl font-bold mb-8 my-text-primary">
                 Find Your Study Partner
             </h2>
 

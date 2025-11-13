@@ -94,16 +94,16 @@ return (
           <img
             src={partner.profileImage}
             alt={partner.name}
-            className="w-36 h-36 rounded-full object-cover border-4 border-primary/30 shadow-lg"
+            className="w-36 h-36 rounded-full object-cover border-4 border-primary shadow-lg"
           />
         </div>
 
         {/* Name & Subject */}
         <div>
-          <h2 className="text-3xl font-bold text-base-content mb-1">
+          <h2 className="text-3xl my-text-primary font-bold text-base-content mb-1">
             {partner.name}
           </h2>
-          <p className="text-lg text-primary/80 font-medium tracking-wide">
+          <p className="text-lg my-text-secondary font-medium tracking-wide">
             {partner.subject}
           </p>
         </div>
@@ -142,7 +142,7 @@ return (
         <div className="mt-6">
           <button
             onClick={handleSendRequest}
-            className="btn btn-primary px-10 text-base font-semibold shadow-md hover:scale-105 transition-transform"
+            className="btn my-btn-primary px-10 text-base font-semibold shadow-md hover:scale-105 transition-transform"
           >
             Send Partner Request
           </button>

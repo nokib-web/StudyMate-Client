@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router';
-import {  IoLogOut } from 'react-icons/io5';
+import { IoLogOut } from 'react-icons/io5';
 import { FaUser } from 'react-icons/fa';
 import useAuth from '../hooks/useAuth';
 import logo from '../assets/studyMate.png'
@@ -56,8 +56,8 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <Link to={'/'}> <p className=" font-bold flex items-center normal-case text-xl">
-                        <img src={logo} alt="StudyMate Logo" className="inline-block rounded-full w-8 h-8 mr-2" />
-                        Study<span className='text-secondary'>Mate</span></p> </Link>
+                        <img src={logo} alt="StudyMate Logo" className="inline-block my-text-primary rounded-full w-8 h-8 mr-2" />
+                        <span className='my-text-primary'>Study</span><span className='my-text-secondary'>Mate</span></p> </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
@@ -100,20 +100,20 @@ const Navbar = () => {
                                 </li>
 
                                 <div className='flex items-center gap-2 '>
-                                  
-                                      <h1 className='mt-4'>Theme:</h1>
-                                    
-                                <input
-                                    onChange={(e) => handleTheme(e.target.checked)}
-                                    type="checkbox"
-                                    defaultChecked={localStorage.getItem('theme') === "dark"}
-                                    className="toggle mt-4" />
+
+                                    <h1 className='mt-4'>Theme:</h1>
+
+                                    <input
+                                        onChange={(e) => handleTheme(e.target.checked)}
+                                        type="checkbox"
+                                        defaultChecked={localStorage.getItem('theme') === "dark"}
+                                        className="toggle mt-4" />
                                 </div>
 
                                 <li>
                                     <button
                                         onClick={handleLogout}
-                                        className="btn btn-sm m-4 bg-primary text-white"
+                                        className="btn btn-sm m-4 my-bg-primary text-white"
                                     >
                                         <IoLogOut /> Logout
                                     </button>
@@ -121,7 +121,7 @@ const Navbar = () => {
                             </ul>
                         </div>
                     ) : (
-                        <Link to={'/login'}><li className="btn btn-primary ">Login</li></Link>
+                        <Link to={'/login'}><li className="btn my-btn-primary  ">Login</li></Link>
                     )}
                 </div>
             </div>

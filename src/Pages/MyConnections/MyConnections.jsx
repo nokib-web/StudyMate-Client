@@ -28,7 +28,7 @@ const MyConnections = () => {
             text: "This connection will be permanently removed.",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
+            confirmButtonColor: "#3085d6  ",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
         }).then((result) => {
@@ -84,7 +84,7 @@ const MyConnections = () => {
 
    return (
   <div className="p-4 sm:p-6 lg:p-10 min-h-screen bg-base-100">
-    <h2 className="text-3xl font-extrabold mb-8 text-center text-primary">
+    <h2 className="text-3xl font-extrabold mb-8 text-center my-text-primary">
       My Connections
     </h2>
 
@@ -118,7 +118,8 @@ const MyConnections = () => {
               <td className="text-center space-x-2">
                 <button
                   onClick={() => setSelected(connection)}
-                  className="btn btn-sm btn-outline btn-primary hover:scale-105 transition-transform"
+                  className="btn my-btn-primary btn-sm hover:scale-105 shadow-sm hover:shadow-md transition"
+                    type="button"
                 >
                   Update
                 </button>
@@ -166,7 +167,7 @@ const MyConnections = () => {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setSelected(connection)}
-                className="btn btn-xs btn-outline btn-primary"
+                className="btn btn-xs btn-outline my-btn-primary"
               >
                 Update
               </button>
@@ -186,7 +187,7 @@ const MyConnections = () => {
     {selected && (
       <dialog id="updateModal" open className="modal">
         <div className="modal-box rounded-2xl">
-          <h3 className="font-bold text-xl mb-4 text-center text-primary">
+          <h3 className="font-bold text-xl mb-4 text-center my-text-primary">
             Update Connection
           </h3>
           <form onSubmit={handleUpdate} className="space-y-4">
@@ -214,7 +215,7 @@ const MyConnections = () => {
             <div className="modal-action justify-center">
               <button
                 type="submit"
-                className="btn btn-primary min-w-24"
+                className="btn my-btn-primary min-w-24"
                 disabled={loading}
               >
                 {loading ? "Updating..." : "Update"}
@@ -222,7 +223,7 @@ const MyConnections = () => {
               <button
                 type="button"
                 onClick={() => setSelected(null)}
-                className="btn btn-outline"
+                className="btn my-btn-outline"
               >
                 Cancel
               </button>

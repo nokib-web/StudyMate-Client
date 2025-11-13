@@ -138,7 +138,7 @@ const Register = () => {
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
                     <div className="card-body">
-                        <h1 className="text-2xl font-bold text-center mb-4">
+                        <h1 className="text-2xl my-text-primary font-bold text-center mb-4">
                             Register Your Account
                         </h1>
 
@@ -196,13 +196,13 @@ const Register = () => {
                                 {error && <p className="text-red-500 text-sm">{error}</p>}
 
                                 {/* Buttons */}
-                                <button type="submit" className="btn btn-primary mt-4 w-full">
+                                <button type="submit" className="btn my-btn-primary mt-4 w-full">
                                     Register
                                 </button>
                                 <button
                                     onClick={handleGoogleSignIn}
                                     type="button"
-                                    className="btn btn-outline mt-3 w-full"
+                                    className="btn my-btn-outline mt-3 w-full"
                                 >
                                     <FcGoogle className="text-xl mr-2" /> Register with Google
                                 </button>

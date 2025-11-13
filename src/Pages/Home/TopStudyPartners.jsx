@@ -33,8 +33,8 @@ const TopStudyPartners = () => {
  return (
   <section className="my-20 px-8 max-w-7xl mx-auto">
     <header>
-      <h2 className="text-center text-4xl font-extrabold mb-12 text-primary">
-         Top Study Partners
+      <h2 className="text-center text-4xl font-extrabold mb-12 my-text-primary">
+         Top Study <span className="my-text-secondary">Partners</span>
       </h2>
     </header>
 
@@ -54,14 +54,14 @@ const TopStudyPartners = () => {
                   "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
                 }
                 alt={partner.name}
-                className="w-28 h-28 rounded-full object-cover border-2 border-indigo-300"
+                className="w-28 h-28 rounded-full object-cover  shadow-lg"
                 loading="lazy"
               />
             </figure>
 
             <div className="text-center grow">
               <h3 className="text-2xl font-semibold text-gray-800 mb-1">{partner.name}</h3>
-              <p className="text-sm text-indigo-600 font-medium mb-2">{partner.subject}</p>
+              <p className="text-sm my-text-secondary font-medium mb-2">{partner.subject}</p>
 
               {partner.skill && (
                 <p className="text-sm italic text-gray-500 mb-4">
@@ -80,7 +80,7 @@ const TopStudyPartners = () => {
 
             <button
               onClick={() => handleViewProfile(partner._id)}
-              className="btn btn-indigo btn-sm rounded-full px-6 py-2 shadow-sm hover:shadow-md transition hover:btn-primary"
+              className="btn my-btn-primary btn-sm rounded-full px-6 py-2 shadow-sm hover:shadow-md transition"
               type="button"
             >
               View Profile
