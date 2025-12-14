@@ -36,13 +36,14 @@ const Navbar = () => {
             user && <>
                 <NavLink className='ml-4 lg:ml-6 font-semibold' to={'/create-partner-profile'}><li>Create Partner Profile</li></NavLink>
                 <NavLink className='ml-4 lg:ml-6 font-semibold' to={'/my-connections'}><li>My Connections</li></NavLink>
+                <NavLink className='ml-4 lg:ml-6 font-semibold' to={'/chat'}><li>Chat</li></NavLink>
             </>
         }
 
     </>
     return (
         <nav className=''>
-            <div className="navbar px-4 bg-base-100 shadow-sm">
+            <div className="navbar px-4 bg-base-300 shadow-sm">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -64,7 +65,7 @@ const Navbar = () => {
                         {links}
                     </ul>
                 </div>
-            
+
                 <div className="navbar-end gap-3">
                     {user ? (
                         <div className="dropdown dropdown-end z-50">

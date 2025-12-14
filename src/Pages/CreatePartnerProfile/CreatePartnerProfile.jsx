@@ -26,13 +26,13 @@ const CreatePartnerProfile = () => {
         email: user?.email || "",
     });
 
-      
-        const payload = {
-            ...formData,
-            rating: parseFloat(formData.rating),
-            partnerCount: Number(formData.partnerCount) || 0,
-        };
-        
+
+    const payload = {
+        ...formData,
+        rating: parseFloat(formData.rating),
+        partnerCount: Number(formData.partnerCount) || 0,
+    };
+
 
 
 
@@ -58,13 +58,13 @@ const CreatePartnerProfile = () => {
                     showConfirmButton: false,
                 });
 
-               setTimeout(() => navigate("/find-partners"), 2000);
+                setTimeout(() => navigate("/find-partners"), 2000);
             }
         } catch (error) {
             console.error("Profile creation failed:", error);
             Swal.fire({
                 title: "Error!",
-                text: "Something went wrong. Please try again.",
+                text: error.response?.data?.message || "Something went wrong. Please try again.",
                 icon: "error",
             });
         }

@@ -5,8 +5,7 @@ import { useNavigate } from "react-router";
 
 const instance = axios.create({
     baseURL: 'https://study-mate-server-kvw8.onrender.com',
-    // baseURL: 'https://study-mate-server-nazmul-hasan-nokibs-projects.vercel.app/',
-
+    // baseURL: 'http://localhost:3000',
 });
 
 

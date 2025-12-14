@@ -154,6 +154,8 @@ const Register = () => {
                                     required
                                 />
 
+
+
                                 {/* Photo URL */}
                                 <label className="label">Photo URL</label>
                                 <input
