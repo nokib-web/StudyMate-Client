@@ -725,360 +725,361 @@ const Chat = () => {
                                         {selectedGroup.type === 'group' ? `${selectedGroup.members?.length} members` : 'Private Conversation'}
                                     </p>
                                 </div>
+                            </div>
 
-                                {/* Admin Panel Toggle */}
-                                <div className="flex gap-2">
-                                    {selectedGroup.type === 'dm' && (
-                                        <>
-                                            <button className="btn btn-ghost btn-circle text-primary" onClick={startAudioCall}>
-                                                <div className="indicator">
-                                                    <FaPhoneAlt />
-                                                </div>
-                                            </button>
-                                            <button className="btn btn-ghost btn-circle text-error" onClick={startVideoCall}>
-                                                <div className="indicator">
-                                                    <FaVideo />
-                                                </div>
-                                            </button>
-                                        </>
-                                    )}
-
-                                    <button className="btn btn-ghost btn-circle" onClick={() => document.getElementById('schedule_modal').showModal()}>
-                                        <div className="indicator">
-                                            <FaCalendarAlt />
-                                        </div>
-                                    </button>
-                                    {selectedGroup.type === 'group' && selectedGroup.members[0] === user.email && (
-                                        <button className="btn btn-ghost btn-circle" onClick={() => setShowAdminPanel(!showAdminPanel)}>
+                            {/* Admin Panel Toggle */}
+                            <div className="flex gap-2">
+                                {selectedGroup.type === 'dm' && (
+                                    <>
+                                        <button className="btn btn-ghost btn-circle text-primary" onClick={startAudioCall}>
                                             <div className="indicator">
-                                                <FaCog />
-                                                {selectedGroup.joinRequests?.length > 0 && <span className="badge badge-xs badge-error indicator-item"></span>}
+                                                <FaPhoneAlt />
                                             </div>
                                         </button>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Admin Panel Overlay */}
-                            {showAdminPanel && (
-                                <div className="bg-base-200 p-4 border-b border-base-300 animate-in slide-in-from-top-2">
-                                    <h4 className="font-bold text-sm mb-2">Pending Join Requests</h4>
-                                    {selectedGroup.joinRequests?.length === 0 && <p className="text-xs opacity-50">No pending requests.</p>}
-                                    <div className="space-y-2">
-                                        {selectedGroup.joinRequests?.map(reqEmail => (
-                                            <div key={reqEmail} className="flex items-center justify-between bg-base-100 p-2 rounded">
-                                                <span className="text-sm">{reqEmail}</span>
-                                                <button className="btn btn-xs btn-success" onClick={() => handleApproveJoin(selectedGroup._id, reqEmail)}>Approve</button>
+                                        <button className="btn btn-ghost btn-circle text-error" onClick={startVideoCall}>
+                                            <div className="indicator">
+                                                <FaVideo />
                                             </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Messages */}
-                            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-base-200/50">
-                                {messages.map((msg, idx) => {
-                                    const isMe = msg.author === user.email;
-                                    const isSystem = msg.author === 'system';
-                                    const isRead = msg.readBy?.length > 0;
-
-                                    if (isSystem && msg.type === 'schedule') {
-                                        return (
-                                            <div key={idx} className="flex justify-center my-4">
-                                                <div className="card w-80 bg-base-100 shadow-xl border border-primary/20">
-                                                    <div className="card-body p-4 text-center">
-                                                        <h2 className="card-title justify-center text-sm">📅 Study Session</h2>
-                                                        <p className="font-bold text-lg">{msg.session?.topic}</p>
-                                                        <p className="text-xs opacity-70">
-                                                            {new Date(msg.session?.startTime).toLocaleString()}
-                                                        </p>
-                                                        <p className="text-xs mt-1">Host: {msg.session?.creatorName}</p>
-                                                        <div className="card-actions justify-center mt-2">
-                                                            <button
-                                                                className="btn btn-primary btn-sm"
-                                                                onClick={() => handleRSVP(msg.session?._id)}
-                                                            >
-                                                                Toggle RSVP
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    }
-
-                                    return (
-                                        <div key={idx} className={`chat ${isMe ? 'chat-end' : 'chat-start'}`}>
-                                            <div className="chat-header text-xs opacity-50 mb-1">
-                                                {isMe ? 'You' : msg.author.split('@')[0]}
-                                                <time className="ml-2">{msg.time}</time>
-                                            </div>
-                                            <div className={`chat-bubble ${isMe ? 'chat-bubble-primary' : 'chat-bubble-secondary'}`}>
-                                                {msg.attachment?.url && (
-                                                    <div className="mb-2">
-                                                        {msg.attachment.type === 'image' || msg.attachment.url.match(/\.(jpeg|jpg|gif|png)$/) != null ? (
-                                                            <img
-                                                                src={msg.attachment.url}
-                                                                alt="attachment"
-                                                                className="max-w-[200px] rounded-lg border border-base-300 cursor-zoom-in hover:brightness-90 transition-all"
-                                                                onClick={() => setPreviewImage(msg.attachment.url)}
-                                                            />
-                                                        ) : (
-                                                            <a href={msg.attachment.url} target="_blank" rel="noopener noreferrer" className="underline text-xs flex items-center gap-1">
-                                                                📎 Download File
-                                                            </a>
-                                                        )}
-                                                    </div>
-                                                )}
-                                                {msg.message}
-                                            </div>
-                                            {isMe && (
-                                                <div className="chat-footer opacity-50 text-[10px] mt-1 flex items-center gap-1">
-                                                    {isRead ? <FaCheckDouble className="text-blue-500" /> : <FaCheck />}
-                                                    {isRead ? 'Read' : 'Sent'}
-                                                </div>
-                                            )}
-                                        </div>
-                                    );
-                                })}
-                                <div ref={messagesEndRef} />
-                            </div>
-
-
-
-                            {/* Input Area */}
-                            <div className="p-4 bg-base-100 border-t border-base-300">
-                                {/* Preview Attachment */}
-                                {tempAttachment && (
-                                    <div className="flex items-center gap-2 mb-2 p-2 bg-base-200 rounded text-xs">
-                                        <span>📎 File Ready</span>
-                                        <button onClick={() => setTempAttachment(null)} className="text-red-500 font-bold ml-auto">X</button>
-                                    </div>
+                                        </button>
+                                    </>
                                 )}
 
-                                <div className="flex gap-2 max-w-4xl mx-auto items-center">
-                                    {/* File Upload Button */}
-                                    <input
-                                        type="file"
-                                        id="fileInput"
-                                        className="hidden"
-                                        onChange={handleFileUpload}
-                                        disabled={isUploading}
-                                    />
-                                    <button
-                                        className={`btn btn-circle btn-ghost btn-sm ${isUploading ? 'loading' : ''}`}
-                                        onClick={() => document.getElementById('fileInput').click()}
-                                    >
-                                        <FaPaperclip />
-                                    </button>
-
-                                    <input
-                                        type="text"
-                                        placeholder="Type a message..."
-                                        className="input input-bordered flex-1"
-                                        value={currentMessage}
-                                        onChange={(e) => setCurrentMessage(e.target.value)}
-                                        onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                                    />
-                                    <button className="btn btn-primary px-6" onClick={sendMessage} disabled={isUploading}>
-                                        Send
-                                    </button>
-                                </div>
-                            </div>
-                        </>
-                        ) : (
-                        <div className="flex-1 flex flex-col items-center justify-center opacity-50">
-                            <FaUsers className="text-6xl mb-4" />
-                            <h3 className="text-2xl font-bold">Select a chat</h3>
-                            <p className="mt-2 text-center max-w-sm">
-                                Connect with partners via DMs or Groups.
-                            </p>
-                        </div>
-                )}
-                    </div>
-
-                {/* Modals */}
-                <dialog id="create_group_modal" className="modal">
-                    <div className="modal-box">
-                        <h3 className="font-bold text-lg">Create New Group</h3>
-                        <div className="py-4 space-y-4">
-                            <div className="form-control">
-                                <label className="label">Group Name</label>
-                                <input type="text" className="input input-bordered w-full" value={newGroupName} onChange={(e) => setNewGroupName(e.target.value)} />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">Description</label>
-                                <input type="text" className="input input-bordered w-full" value={newGroupDesc} onChange={(e) => setNewGroupDesc(e.target.value)} />
-                            </div>
-                        </div>
-                        <div className="modal-action">
-                            <form method="dialog"><button className="btn btn-ghost mr-2">Cancel</button></form>
-                            <button className="btn btn-primary" onClick={handleCreateGroup}>Create</button>
-                        </div>
-                    </div>
-                </dialog>
-
-                {/* Schedule Session Modal */}
-                <dialog id="schedule_modal" className="modal">
-                    <div className="modal-box">
-                        <h3 className="font-bold text-lg">Schedule Study Session</h3>
-                        <div className="py-4 space-y-4">
-                            <div className="form-control">
-                                <label className="label">Topic</label>
-                                <input type="text" placeholder="e.g., Algebra Finals Prep" className="input input-bordered w-full" value={scheduleTopic} onChange={(e) => setScheduleTopic(e.target.value)} />
-                            </div>
-                            <div className="flex gap-4">
-                                <div className="form-control flex-1">
-                                    <label className="label">Date</label>
-                                    <input type="date" className="input input-bordered w-full" value={scheduleDate} onChange={(e) => setScheduleDate(e.target.value)} />
-                                </div>
-                                <div className="form-control flex-1">
-                                    <label className="label">Time</label>
-                                    <input type="time" className="input input-bordered w-full" value={scheduleTime} onChange={(e) => setScheduleTime(e.target.value)} />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="modal-action">
-                            <form method="dialog"><button className="btn btn-ghost mr-2">Cancel</button></form>
-                            <button className="btn btn-primary" onClick={handleCreateSession}>Schedule</button>
-                        </div>
-                    </div>
-                </dialog>
-
-                <dialog id="start_dm_modal" className="modal">
-                    <div className="modal-box">
-                        <h3 className="font-bold text-lg">Start Direct Message</h3>
-                        <div className="py-4">
-                            <div className="form-control">
-                                <label className="label">Partner Email</label>
-                                <input type="email" placeholder="user@example.com" className="input input-bordered w-full" value={dmReceiverEmail} onChange={(e) => setDmReceiverEmail(e.target.value)} />
-                            </div>
-                        </div>
-                        <div className="modal-action">
-                            <form method="dialog"><button className="btn btn-ghost mr-2">Cancel</button></form>
-                            <button className="btn btn-primary" onClick={handleStartDM}>Start Chat</button>
-                        </div>
-                    </div>
-                </dialog>
-
-                {/* Image Preview Modal */}
-                {previewImage && (
-                    <div
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm cursor-zoom-out"
-                        onClick={() => setPreviewImage(null)}
-                    >
-                        <img
-                            src={previewImage}
-                            alt="Full size"
-                            className="max-w-[95%] max-h-[95vh] object-contain rounded-lg shadow-2xl animate-in fade-in zoom-in-50 duration-200"
-                        />
-                        <button className="absolute top-4 right-4 text-white hover:text-red-500 font-bold text-xl p-2 bg-black/50 rounded-full w-10 h-10 flex items-center justify-center">
-                            ✕
-                        </button>
-                    </div>
-                )}
-
-                {/* Incoming Call Modal */}
-                {incomingCall && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-                        <div className="bg-base-100 p-8 rounded-lg shadow-2xl text-center animate-bounce-in">
-                            <div className="avatar mb-4">
-                                <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                    <img src="https://ui-avatars.com/api/?name=Caller" alt="caller" />
-                                </div>
-                            </div>
-                            <h3 className="text-2xl font-bold mb-2">Incoming {incomingCall.callType || 'Video'} Call...</h3>
-                            <p className="mb-6 opacity-70">{incomingCall.fromEmail}</p>
-                            <div className="flex gap-4 justify-center">
-                                <button className="btn btn-error btn-circle btn-lg" onClick={rejectCall}>
-                                    <FaPhoneSlash />
+                                <button className="btn btn-ghost btn-circle" onClick={() => document.getElementById('schedule_modal').showModal()}>
+                                    <div className="indicator">
+                                        <FaCalendarAlt />
+                                    </div>
                                 </button>
-                                <button className="btn btn-success btn-circle btn-lg animate-pulse" onClick={acceptCall}>
-                                    {incomingCall.callType === 'audio' ? <FaPhoneAlt /> : <FaVideo />}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* Active Video/Audio Call Modal */}
-                {callActive && (
-                    <div className="fixed inset-0 z-50 bg-black flex flex-col">
-                        <div className="relative flex-1 flex items-center justify-center overflow-hidden">
-
-                            {/* Audio Only UI */}
-                            {callType === 'audio' && (
-                                <div className="flex flex-col items-center justify-center h-full w-full bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-                                    <div className="avatar placeholder mb-8 animate-pulse">
-                                        <div className="bg-neutral-focus text-neutral-content rounded-full w-32 shadow-2xl border-4 border-primary">
-                                            <span className="text-3xl"><FaUser /></span>
+                                {selectedGroup.type === 'group' && selectedGroup.members[0] === user.email && (
+                                    <button className="btn btn-ghost btn-circle" onClick={() => setShowAdminPanel(!showAdminPanel)}>
+                                        <div className="indicator">
+                                            <FaCog />
+                                            {selectedGroup.joinRequests?.length > 0 && <span className="badge badge-xs badge-error indicator-item"></span>}
                                         </div>
-                                    </div>
-                                    <h2 className="text-2xl font-bold mb-2">Audio Call</h2>
-                                    <p className="text-xl font-mono opacity-80">{formatTime(callDuration)}</p>
-                                    {/* Hidden Videos for Audio Processing */}
-                                    <video ref={remoteVideoRef} autoPlay className="hidden" />
-                                    <video ref={localVideoRef} autoPlay muted className="hidden" />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Admin Panel Overlay */}
+                        {showAdminPanel && (
+                            <div className="bg-base-200 p-4 border-b border-base-300 animate-in slide-in-from-top-2">
+                                <h4 className="font-bold text-sm mb-2">Pending Join Requests</h4>
+                                {selectedGroup.joinRequests?.length === 0 && <p className="text-xs opacity-50">No pending requests.</p>}
+                                <div className="space-y-2">
+                                    {selectedGroup.joinRequests?.map(reqEmail => (
+                                        <div key={reqEmail} className="flex items-center justify-between bg-base-100 p-2 rounded">
+                                            <span className="text-sm">{reqEmail}</span>
+                                            <button className="btn btn-xs btn-success" onClick={() => handleApproveJoin(selectedGroup._id, reqEmail)}>Approve</button>
+                                        </div>
+                                    ))}
                                 </div>
-                            )}
+                            </div>
+                        )}
 
-                            {/* Video UI */}
-                            {callType === 'video' && (
-                                <>
-                                    {/* Remote Video (Full Screen) */}
-                                    <video
-                                        ref={remoteVideoRef}
-                                        autoPlay
-                                        className="absolute w-full h-full object-cover"
-                                    />
+                        {/* Messages */}
+                        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-base-200/50">
+                            {messages.map((msg, idx) => {
+                                const isMe = msg.author === user.email;
+                                const isSystem = msg.author === 'system';
+                                const isRead = msg.readBy?.length > 0;
 
-                                    {/* Call Info / Timer */}
-                                    <div className="absolute top-4 left-4 z-10 bg-black/50 px-4 py-2 rounded-full text-white font-mono flex items-center gap-2">
-                                        <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                                        {formatTime(callDuration)}
-                                    </div>
+                                if (isSystem && msg.type === 'schedule') {
+                                    return (
+                                        <div key={idx} className="flex justify-center my-4">
+                                            <div className="card w-80 bg-base-100 shadow-xl border border-primary/20">
+                                                <div className="card-body p-4 text-center">
+                                                    <h2 className="card-title justify-center text-sm">📅 Study Session</h2>
+                                                    <p className="font-bold text-lg">{msg.session?.topic}</p>
+                                                    <p className="text-xs opacity-70">
+                                                        {new Date(msg.session?.startTime).toLocaleString()}
+                                                    </p>
+                                                    <p className="text-xs mt-1">Host: {msg.session?.creatorName}</p>
+                                                    <div className="card-actions justify-center mt-2">
+                                                        <button
+                                                            className="btn btn-primary btn-sm"
+                                                            onClick={() => handleRSVP(msg.session?._id)}
+                                                        >
+                                                            Toggle RSVP
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                }
 
-                                    {/* Local Video (PiP) */}
-                                    <div className="absolute top-4 right-4 w-48 h-36 bg-gray-800 rounded-lg overflow-hidden border-2 border-white shadow-xl">
-                                        <video
-                                            ref={localVideoRef}
-                                            autoPlay
-                                            muted
-                                            className={`w-full h-full object-cover ${isVideoOff ? 'hidden' : ''}`}
-                                        />
-                                        {isVideoOff && (
-                                            <div className="w-full h-full flex items-center justify-center bg-gray-700 text-white">
-                                                <FaVideoSlash />
+                                return (
+                                    <div key={idx} className={`chat ${isMe ? 'chat-end' : 'chat-start'}`}>
+                                        <div className="chat-header text-xs opacity-50 mb-1">
+                                            {isMe ? 'You' : msg.author.split('@')[0]}
+                                            <time className="ml-2">{msg.time}</time>
+                                        </div>
+                                        <div className={`chat-bubble ${isMe ? 'chat-bubble-primary' : 'chat-bubble-secondary'}`}>
+                                            {msg.attachment?.url && (
+                                                <div className="mb-2">
+                                                    {msg.attachment.type === 'image' || msg.attachment.url.match(/\.(jpeg|jpg|gif|png)$/) != null ? (
+                                                        <img
+                                                            src={msg.attachment.url}
+                                                            alt="attachment"
+                                                            className="max-w-[200px] rounded-lg border border-base-300 cursor-zoom-in hover:brightness-90 transition-all"
+                                                            onClick={() => setPreviewImage(msg.attachment.url)}
+                                                        />
+                                                    ) : (
+                                                        <a href={msg.attachment.url} target="_blank" rel="noopener noreferrer" className="underline text-xs flex items-center gap-1">
+                                                            📎 Download File
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            )}
+                                            {msg.message}
+                                        </div>
+                                        {isMe && (
+                                            <div className="chat-footer opacity-50 text-[10px] mt-1 flex items-center gap-1">
+                                                {isRead ? <FaCheckDouble className="text-blue-500" /> : <FaCheck />}
+                                                {isRead ? 'Read' : 'Sent'}
                                             </div>
                                         )}
                                     </div>
-                                </>
+                                );
+                            })}
+                            <div ref={messagesEndRef} />
+                        </div>
+
+
+
+                        {/* Input Area */}
+                        <div className="p-4 bg-base-100 border-t border-base-300">
+                            {/* Preview Attachment */}
+                            {tempAttachment && (
+                                <div className="flex items-center gap-2 mb-2 p-2 bg-base-200 rounded text-xs">
+                                    <span>📎 File Ready</span>
+                                    <button onClick={() => setTempAttachment(null)} className="text-red-500 font-bold ml-auto">X</button>
+                                </div>
                             )}
 
-                            {/* Overlay Controls */}
-                            <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-6 items-center z-20">
-
-                                <button className={`btn btn-circle btn-lg ${isMuted ? 'btn-warning' : 'btn-ghost bg-white/20 hover:bg-white/30 text-white'}`} onClick={toggleMute}>
-                                    {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
+                            <div className="flex gap-2 max-w-4xl mx-auto items-center">
+                                {/* File Upload Button */}
+                                <input
+                                    type="file"
+                                    id="fileInput"
+                                    className="hidden"
+                                    onChange={handleFileUpload}
+                                    disabled={isUploading}
+                                />
+                                <button
+                                    className={`btn btn-circle btn-ghost btn-sm ${isUploading ? 'loading' : ''}`}
+                                    onClick={() => document.getElementById('fileInput').click()}
+                                >
+                                    <FaPaperclip />
                                 </button>
 
-                                <button className="btn btn-error btn-circle btn-xl shadow-lg border-4 border-white" onClick={endCall}>
-                                    <FaPhoneSlash className="text-xl" />
+                                <input
+                                    type="text"
+                                    placeholder="Type a message..."
+                                    className="input input-bordered flex-1"
+                                    value={currentMessage}
+                                    onChange={(e) => setCurrentMessage(e.target.value)}
+                                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                                />
+                                <button className="btn btn-primary px-6" onClick={sendMessage} disabled={isUploading}>
+                                    Send
                                 </button>
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex-1 flex flex-col items-center justify-center opacity-50">
+                        <FaUsers className="text-6xl mb-4" />
+                        <h3 className="text-2xl font-bold">Select a chat</h3>
+                        <p className="mt-2 text-center max-w-sm">
+                            Connect with partners via DMs or Groups.
+                        </p>
+                    </div>
+                )}
+            </div>
 
-                                {/* Only show video toggle if it's a video call */}
-                                {callType === 'video' && (
-                                    <button className={`btn btn-circle btn-lg ${isVideoOff ? 'btn-warning' : 'btn-ghost bg-white/20 hover:bg-white/30 text-white'}`} onClick={toggleVideo}>
-                                        {isVideoOff ? <FaVideoSlash /> : <FaVideo />}
-                                    </button>
-                                )}
+            {/* Modals */}
+            <dialog id="create_group_modal" className="modal">
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg">Create New Group</h3>
+                    <div className="py-4 space-y-4">
+                        <div className="form-control">
+                            <label className="label">Group Name</label>
+                            <input type="text" className="input input-bordered w-full" value={newGroupName} onChange={(e) => setNewGroupName(e.target.value)} />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">Description</label>
+                            <input type="text" className="input input-bordered w-full" value={newGroupDesc} onChange={(e) => setNewGroupDesc(e.target.value)} />
+                        </div>
+                    </div>
+                    <div className="modal-action">
+                        <form method="dialog"><button className="btn btn-ghost mr-2">Cancel</button></form>
+                        <button className="btn btn-primary" onClick={handleCreateGroup}>Create</button>
+                    </div>
+                </div>
+            </dialog>
+
+            {/* Schedule Session Modal */}
+            <dialog id="schedule_modal" className="modal">
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg">Schedule Study Session</h3>
+                    <div className="py-4 space-y-4">
+                        <div className="form-control">
+                            <label className="label">Topic</label>
+                            <input type="text" placeholder="e.g., Algebra Finals Prep" className="input input-bordered w-full" value={scheduleTopic} onChange={(e) => setScheduleTopic(e.target.value)} />
+                        </div>
+                        <div className="flex gap-4">
+                            <div className="form-control flex-1">
+                                <label className="label">Date</label>
+                                <input type="date" className="input input-bordered w-full" value={scheduleDate} onChange={(e) => setScheduleDate(e.target.value)} />
+                            </div>
+                            <div className="form-control flex-1">
+                                <label className="label">Time</label>
+                                <input type="time" className="input input-bordered w-full" value={scheduleTime} onChange={(e) => setScheduleTime(e.target.value)} />
                             </div>
                         </div>
                     </div>
-                )}
+                    <div className="modal-action">
+                        <form method="dialog"><button className="btn btn-ghost mr-2">Cancel</button></form>
+                        <button className="btn btn-primary" onClick={handleCreateSession}>Schedule</button>
+                    </div>
+                </div>
+            </dialog>
 
-            </div>
-            );
+            <dialog id="start_dm_modal" className="modal">
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg">Start Direct Message</h3>
+                    <div className="py-4">
+                        <div className="form-control">
+                            <label className="label">Partner Email</label>
+                            <input type="email" placeholder="user@example.com" className="input input-bordered w-full" value={dmReceiverEmail} onChange={(e) => setDmReceiverEmail(e.target.value)} />
+                        </div>
+                    </div>
+                    <div className="modal-action">
+                        <form method="dialog"><button className="btn btn-ghost mr-2">Cancel</button></form>
+                        <button className="btn btn-primary" onClick={handleStartDM}>Start Chat</button>
+                    </div>
+                </div>
+            </dialog>
+
+            {/* Image Preview Modal */}
+            {previewImage && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm cursor-zoom-out"
+                    onClick={() => setPreviewImage(null)}
+                >
+                    <img
+                        src={previewImage}
+                        alt="Full size"
+                        className="max-w-[95%] max-h-[95vh] object-contain rounded-lg shadow-2xl animate-in fade-in zoom-in-50 duration-200"
+                    />
+                    <button className="absolute top-4 right-4 text-white hover:text-red-500 font-bold text-xl p-2 bg-black/50 rounded-full w-10 h-10 flex items-center justify-center">
+                        ✕
+                    </button>
+                </div>
+            )}
+
+            {/* Incoming Call Modal */}
+            {incomingCall && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+                    <div className="bg-base-100 p-8 rounded-lg shadow-2xl text-center animate-bounce-in">
+                        <div className="avatar mb-4">
+                            <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                <img src="https://ui-avatars.com/api/?name=Caller" alt="caller" />
+                            </div>
+                        </div>
+                        <h3 className="text-2xl font-bold mb-2">Incoming {incomingCall.callType || 'Video'} Call...</h3>
+                        <p className="mb-6 opacity-70">{incomingCall.fromEmail}</p>
+                        <div className="flex gap-4 justify-center">
+                            <button className="btn btn-error btn-circle btn-lg" onClick={rejectCall}>
+                                <FaPhoneSlash />
+                            </button>
+                            <button className="btn btn-success btn-circle btn-lg animate-pulse" onClick={acceptCall}>
+                                {incomingCall.callType === 'audio' ? <FaPhoneAlt /> : <FaVideo />}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Active Video/Audio Call Modal */}
+            {callActive && (
+                <div className="fixed inset-0 z-50 bg-black flex flex-col">
+                    <div className="relative flex-1 flex items-center justify-center overflow-hidden">
+
+                        {/* Audio Only UI */}
+                        {callType === 'audio' && (
+                            <div className="flex flex-col items-center justify-center h-full w-full bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+                                <div className="avatar placeholder mb-8 animate-pulse">
+                                    <div className="bg-neutral-focus text-neutral-content rounded-full w-32 shadow-2xl border-4 border-primary">
+                                        <span className="text-3xl"><FaUser /></span>
+                                    </div>
+                                </div>
+                                <h2 className="text-2xl font-bold mb-2">Audio Call</h2>
+                                <p className="text-xl font-mono opacity-80">{formatTime(callDuration)}</p>
+                                {/* Hidden Videos for Audio Processing */}
+                                <video ref={remoteVideoRef} autoPlay className="hidden" />
+                                <video ref={localVideoRef} autoPlay muted className="hidden" />
+                            </div>
+                        )}
+
+                        {/* Video UI */}
+                        {callType === 'video' && (
+                            <>
+                                {/* Remote Video (Full Screen) */}
+                                <video
+                                    ref={remoteVideoRef}
+                                    autoPlay
+                                    className="absolute w-full h-full object-cover"
+                                />
+
+                                {/* Call Info / Timer */}
+                                <div className="absolute top-4 left-4 z-10 bg-black/50 px-4 py-2 rounded-full text-white font-mono flex items-center gap-2">
+                                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                                    {formatTime(callDuration)}
+                                </div>
+
+                                {/* Local Video (PiP) */}
+                                <div className="absolute top-4 right-4 w-48 h-36 bg-gray-800 rounded-lg overflow-hidden border-2 border-white shadow-xl">
+                                    <video
+                                        ref={localVideoRef}
+                                        autoPlay
+                                        muted
+                                        className={`w-full h-full object-cover ${isVideoOff ? 'hidden' : ''}`}
+                                    />
+                                    {isVideoOff && (
+                                        <div className="w-full h-full flex items-center justify-center bg-gray-700 text-white">
+                                            <FaVideoSlash />
+                                        </div>
+                                    )}
+                                </div>
+                            </>
+                        )}
+
+                        {/* Overlay Controls */}
+                        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-6 items-center z-20">
+
+                            <button className={`btn btn-circle btn-lg ${isMuted ? 'btn-warning' : 'btn-ghost bg-white/20 hover:bg-white/30 text-white'}`} onClick={toggleMute}>
+                                {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
+                            </button>
+
+                            <button className="btn btn-error btn-circle btn-xl shadow-lg border-4 border-white" onClick={endCall}>
+                                <FaPhoneSlash className="text-xl" />
+                            </button>
+
+                            {/* Only show video toggle if it's a video call */}
+                            {callType === 'video' && (
+                                <button className={`btn btn-circle btn-lg ${isVideoOff ? 'btn-warning' : 'btn-ghost bg-white/20 hover:bg-white/30 text-white'}`} onClick={toggleVideo}>
+                                    {isVideoOff ? <FaVideoSlash /> : <FaVideo />}
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+        </div>
+    );
 };
 
-            export default Chat;
+export default Chat;
