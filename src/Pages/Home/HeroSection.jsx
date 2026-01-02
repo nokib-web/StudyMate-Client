@@ -1,68 +1,105 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router";
+import { FaArrowRight } from "react-icons/fa";
 
 const HeroSection = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      id: 1,
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2671&auto=format&fit=crop",
+      title: "Find Your Perfect Study Partner",
+      description: "Connect with learners who share your goals, subjects, and study habits. Master your subjects together.",
+      cta: "Find Partners",
+      link: "/find-partners"
+    },
+    {
+      id: 2,
+      image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2670&auto=format&fit=crop",
+      title: "Learn, Grow, and Achieve Together",
+      description: "Share knowledge, solve complex problems, and stay motivated throughout your learning journey.",
+      cta: "Join Community",
+      link: "/register"
+    },
+    {
+      id: 3,
+      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2670&auto=format&fit=crop",
+      title: "Experience Smarter Studying",
+      description: "Join StudyMate to make studying efficient, engaging, and enjoyable with real-time collaboration.",
+      cta: "Explore Now",
+      link: "/find-partners"
+    }
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
-    <div className="w-full mb-10">
-      <div className="carousel w-full rounded-3xl shadow-2xl overflow-hidden">
-
-        {/* Slide 1 */}
-        <div id="slide1" className="carousel-item relative w-full">
-          <img
-            src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1500&q=80"
-            className="w-full object-cover h-[400px]"
-            alt="Find your study partner"
-          />
-          <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-6">
-            <h2 className="text-4xl text-gray-500 font-bold mb-3">Find Your Perfect Study Partner</h2>
-            <p className="text-lg text-gray-400 max-w-2xl">
-              Connect with learners who share your goals, subjects, and study habits.
-            </p>
+    <div className="relative w-full h-[600px] lg:h-[700px] overflow-hidden">
+      {/* Slides */}
+      {slides.map((slide, index) => (
+        <div
+          key={slide.id}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"
+            }`}
+        >
+          {/* Background Image with Overlay */}
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${slide.image})` }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/30"></div>
           </div>
-          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide3" className="btn btn-circle btn-sm">❮</a>
-            <a href="#slide2" className="btn btn-circle btn-sm">❯</a>
+
+          {/* Content */}
+          <div className="relative z-10 h-full container mx-auto px-6 flex flex-col justify-center items-start text-white max-w-4xl">
+            <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6 leading-tight animate-fade-in-up">
+              {slide.title}
+            </h1>
+            <p className="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl leading-relaxed animate-fade-in-up delay-100">
+              {slide.description}
+            </p>
+            <Link
+              to={slide.link}
+              className="btn btn-primary btn-lg rounded-full px-8 text-white border-none hover:scale-105 transition-transform animate-fade-in-up delay-200"
+            >
+              {slide.cta} <FaArrowRight className="ml-2" />
+            </Link>
           </div>
         </div>
+      ))}
 
-        {/* Slide 2 */}
-        <div id="slide2" className="carousel-item relative w-full">
-          <img
-            src="https://i.ibb.co.com/cSWH2W2L/istockphoto-976795814-612x612.webp"
-            className="w-full object-cover h-[400px]"
-            alt="Grow together"
+      {/* Navigation Indicators */}
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide ? "bg-primary w-8" : "bg-white/50 hover:bg-white"
+              }`}
+            aria-label={`Go to slide ${index + 1}`}
           />
-          <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-6">
-            <h2 className="text-4xl text-gray-500 font-bold mb-3">Learn, Grow, and Achieve Together</h2>
-            <p className="text-lg text-gray-400 max-w-2xl">
-              Share knowledge, solve problems, and stay motivated in your learning journey.
-            </p>
-          </div>
-          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide1" className="btn btn-circle btn-sm">❮</a>
-            <a href="#slide3" className="btn btn-circle btn-sm">❯</a>
-          </div>
-        </div>
-
-        {/* Slide 3 */}
-        <div id="slide3" className="carousel-item relative w-full">
-          <img
-            src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1500&q=80"
-            className="w-full object-cover h-[400px]"
-            alt="Smart study experience"
-          />
-          <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white px-6">
-            <h2 className="text-4xl text-gray-500 font-bold mb-3">Experience Smarter Studying</h2>
-            <p className="text-lg text-gray-400 max-w-2xl">
-              Join StudyMate to make studying efficient, engaging, and enjoyable.
-            </p>
-          </div>
-          <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide2" className="btn btn-circle btn-sm">❮</a>
-            <a href="#slide1" className="btn btn-circle btn-sm">❯</a>
-          </div>
-        </div>
-
+        ))}
       </div>
+
+      {/* Arrows (Optional, but requested) */}
+      <button
+        onClick={() => setCurrentSlide(prev => (prev === 0 ? slides.length - 1 : prev - 1))}
+        className="absolute left-4 top-1/2 -translate-y-1/2 btn btn-circle btn-ghost text-white text-2xl hover:bg-black/20 hidden lg:flex"
+      >
+        ❮
+      </button>
+      <button
+        onClick={() => setCurrentSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1))}
+        className="absolute right-4 top-1/2 -translate-y-1/2 btn btn-circle btn-ghost text-white text-2xl hover:bg-black/20 hidden lg:flex"
+      >
+        ❯
+      </button>
     </div>
   );
 };

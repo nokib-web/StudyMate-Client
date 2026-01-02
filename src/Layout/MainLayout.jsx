@@ -26,12 +26,16 @@ const MainLayout = () => {
     }, [socket]);
 
     return (
-        <div className='max-w-7xl mx-auto'>
-            <Navbar />
-            <div className='min-h-screen   '>
+        <div className=''>
+            <div>
+                <Navbar />
+            </div>
+            <div className='min-h-screen max-w-7xl mx-auto  '>
                 <Outlet />
             </div>
-            <Footer />
+            <div>
+                <Footer />
+            </div>
         </div>
     );
 };

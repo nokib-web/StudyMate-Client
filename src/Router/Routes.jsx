@@ -9,6 +9,10 @@ import CreatePartnerProfile from "../Pages/CreatePartnerProfile/CreatePartnerPro
 
 import MyConnections from "../Pages/MyConnections/MyConnections";
 import Chat from "../Pages/Chat/Chat";
+import About from "../Pages/About/About";
+import Contact from "../Pages/Contact/Contact";
+import Blogs from "../Pages/Blog/Blogs";
+import BlogDetails from "../Pages/Blog/BlogDetails";
 
 import PrivateRoute from "./PrivateRoute";
 import PartnerDetails from "../Pages/FindPartners/PartnerDetails";
@@ -18,6 +22,9 @@ import NotFoundPage from "../components/NotFoundPage";
 import AdminRoute from "./AdminRoute";
 import DashboardLayout from "../Layout/DashboardLayout";
 import AllUsers from "../Pages/Dashboard/AllUsers";
+import DashboardOverview from "../Pages/Dashboard/DashboardOverview";
+import ManageBlogs from "../Pages/Dashboard/ManageBlogs";
+import AddBlog from "../Pages/Dashboard/AddBlog";
 
 
 
@@ -65,7 +72,23 @@ const router = createBrowserRouter([
                 path: '/chat',
                 element: <PrivateRoute><Chat></Chat></PrivateRoute>
             },
+            {
+                path: '/about',
+                element: <About />
+            },
+            {
+                path: '/contact',
+                element: <Contact />
+            },
 
+            {
+                path: '/blogs',
+                element: <Blogs />
+            },
+            {
+                path: '/blogs/:id',
+                element: <BlogDetails />
+            },
             {
                 path: '*',
                 Component: NotFoundPage
@@ -75,11 +98,27 @@ const router = createBrowserRouter([
     },
     {
         path: 'dashboard',
-        element: <PrivateRoute><AdminRoute><DashboardLayout></DashboardLayout></AdminRoute></PrivateRoute>,
+        element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
         children: [
             {
+                index: true,
+                element: <DashboardOverview />
+            },
+            {
                 path: 'all-users',
-                element: <AllUsers></AllUsers>
+                element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
+            },
+            {
+                path: 'manage-blogs',
+                element: <AdminRoute><ManageBlogs /></AdminRoute>
+            },
+            {
+                path: 'add-blog',
+                element: <AdminRoute><AddBlog /></AdminRoute>
+            },
+            {
+                path: 'edit-blog/:id',
+                element: <AdminRoute><AddBlog /></AdminRoute>
             }
         ]
     }
