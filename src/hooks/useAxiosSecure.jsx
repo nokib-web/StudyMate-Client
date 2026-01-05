@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 const instance = axios.create({
-    baseURL: 'https://study-mate-server-kvw8.onrender.com',
-    // baseURL: 'http://localhost:3000',
+    baseURL: import.meta.env.VITE_API_URL,
+    // baseURL: 'https://study-mate-server-kvw8.onrender.com',
 });
 
 
