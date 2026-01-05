@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaFingerprint, FaChevronLeft, FaShieldAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
@@ -25,10 +25,9 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
 
-        // Validation
         const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
         if (!passwordPattern.test(password)) {
-            setError("Password must be 6+ chars, 1 uppercase, 1 lowercase.");
+            setError("Complexity failure: 6+ chars, 1 uppercase, 1 lowercase required.");
             setLoading(false);
             return;
         }
@@ -45,17 +44,18 @@ const Register = () => {
                             .then(() => {
                                 Swal.fire({
                                     icon: "success",
-                                    title: "Account Created!",
-                                    text: "Welcome to StudyMate!",
+                                    title: "Onboarding Successful",
+                                    text: "Welcome to the StudyMate ecosystem!",
                                     timer: 2000,
                                     showConfirmButton: false,
+                                    customClass: { popup: 'rounded-[1.5rem]' }
                                 });
                                 navigate("/");
                             });
                     })
                     .catch((err) => {
                         console.error(err);
-                        setError("Profile update failed.");
+                        setError("Metadata synchronization failed.");
                         setLoading(false);
                     });
             })
@@ -68,7 +68,6 @@ const Register = () => {
     const handleGoogleSignIn = () => {
         signInWithGoogle()
             .then((result) => {
-                // ... same logic as Login
                 const newUser = {
                     name: result.user.displayName,
                     email: result.user.email,
@@ -77,10 +76,11 @@ const Register = () => {
                 axiosInstance.post("/users", newUser);
                 Swal.fire({
                     icon: "success",
-                    title: "Welcome!",
-                    text: "Signed up with Google.",
+                    title: "SSO Initialization Complete",
+                    text: "Account verified via Google.",
                     timer: 2000,
                     showConfirmButton: false,
+                    customClass: { popup: 'rounded-[1.5rem]' }
                 });
                 navigate("/");
             })
@@ -90,112 +90,151 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen bg-base-200 flex items-center justify-center py-10 px-4">
-            <div className="bg-white rounded-3xl shadow-2xl overflow-hidden flex max-w-5xl w-full">
-                {/* Left Side - Visual */}
-                <div className="hidden md:flex md:w-1/2 bg-secondary relative flex-col justify-center items-center text-white p-12 overflow-hidden">
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
-                    <div className="relative z-10 text-center">
-                        <h2 className="text-4xl font-heading font-bold mb-4">Join Our Community</h2>
-                        <p className="text-yellow-50 text-lg mb-8">
-                            Discover a world of collaborative learning. Create your account and find your perfect study partner today.
-                        </p>
+        <div className="min-h-screen bg-white flex items-center justify-center relative overflow-hidden p-6 py-20">
+            {/* Background design accents */}
+            <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-primary/2 rounded-full blur-[120px] -ml-40 -mt-40"></div>
+            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-400/2 rounded-full blur-[100px] -mr-40 -mb-40"></div>
+
+            <div className="w-full max-w-6xl bg-white rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] border border-gray-50 flex flex-col lg:flex-row overflow-hidden min-h-[850px] relative z-10">
+                {/* Visual Identity Side */}
+                <div className="hidden lg:flex w-5/12 bg-[#0F172A] relative flex-col justify-center p-16 text-white overflow-hidden">
+                    <div className="absolute inset-0 opacity-10">
+                        <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=1500" className="w-full h-full object-cover" alt="" />
+                    </div>
+                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-indigo-600/20 to-primary/20"></div>
+
+                    <div className="relative z-10 space-y-10">
+                        <Link to="/" className="inline-flex items-center gap-2 text-primary font-black text-xl">
+                            <span className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white"><FaFingerprint size={14} /></span>
+                            StudyMate Hub
+                        </Link>
+
+                        <div className="space-y-6">
+                            <h2 className="text-5xl font-black tracking-tight leading-tight">Join the <br /><span className="text-primary italic">Intelligence</span> <br />Collective.</h2>
+                            <p className="text-slate-400 text-lg font-medium leading-relaxed">
+                                Experience the next evolution of academic collaboration. Sync with experts, share resources, and accelerate your mastery.
+                            </p>
+                        </div>
+
+                        <div className="space-y-4 pt-8 border-t border-white/5">
+                            <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary"><FaShieldAlt /></div>
+                                <span className="text-xs font-bold text-slate-300 uppercase tracking-widest">End-to-End Encryption</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                {/* Right Side - Form */}
-                <div className="w-full md:w-1/2 p-8 md:p-12">
-                    <div className="text-center mb-8">
-                        <h1 className="text-3xl font-bold text-gray-800">Create Account</h1>
-                        <p className="text-gray-500 mt-2">Get started with your free account</p>
+                {/* Registration Execution Side (Form) */}
+                <div className="w-full lg:w-7/12 p-8 md:p-16 flex flex-col justify-center bg-[#FAFBFF]">
+                    <div className="mb-10 space-y-2">
+                        <h1 className="text-3xl font-black text-gray-900 tracking-tight">Onboarding Request</h1>
+                        <p className="text-gray-500 font-medium">Initialize your profile within the StudyMate ecosystem.</p>
                     </div>
 
-                    <form onSubmit={handleRegister} className="space-y-4">
-                        <div>
-                            <label className="label font-semibold">Full Name</label>
+                    <form onSubmit={handleRegister} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                            <label className="text-[11px] font-black uppercase text-gray-400 tracking-widest pl-1">Legal Identity</label>
                             <input
                                 name="name"
                                 type="text"
-                                className="input input-bordered w-full rounded-xl focus:input-secondary"
-                                placeholder="Your full name"
+                                className="w-full h-14 px-6 rounded-2xl bg-white border border-gray-100 focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium text-gray-900"
+                                placeholder="Full Name"
                                 required
                             />
                         </div>
 
-                        <div>
-                            <label className="label font-semibold">Photo URL</label>
+                        <div className="space-y-2">
+                            <label className="text-[11px] font-black uppercase text-gray-400 tracking-widest pl-1">Avatar Source (URL)</label>
                             <input
                                 name="photo"
                                 type="text"
-                                className="input input-bordered w-full rounded-xl focus:input-secondary"
-                                placeholder="Link to your profile photo"
+                                className="w-full h-14 px-6 rounded-2xl bg-white border border-gray-100 focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium text-gray-900"
+                                placeholder="https://image-link.com"
                                 required
                             />
                         </div>
 
-                        <div>
-                            <label className="label font-semibold">Email</label>
+                        <div className="md:col-span-2 space-y-2">
+                            <label className="text-[11px] font-black uppercase text-gray-400 tracking-widest pl-1">Synchronization Email</label>
                             <input
                                 name="email"
                                 type="email"
-                                className="input input-bordered w-full rounded-xl focus:input-secondary"
-                                placeholder="you@example.com"
+                                className="w-full h-14 px-6 rounded-2xl bg-white border border-gray-100 focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium text-gray-900"
+                                placeholder="active-email@domain.com"
                                 required
                             />
                         </div>
 
-                        <div>
-                            <label className="label font-semibold">Password</label>
+                        <div className="md:col-span-2 space-y-2">
+                            <label className="text-[11px] font-black uppercase text-gray-400 tracking-widest pl-1">Security Key (Password)</label>
                             <div className="relative">
                                 <input
                                     name="password"
                                     type={showPassword ? "text" : "password"}
-                                    className="input input-bordered w-full rounded-xl focus:input-secondary pr-10"
-                                    placeholder="Create a strong password"
+                                    className="w-full h-14 px-6 rounded-2xl bg-white border border-gray-100 focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all outline-none font-medium text-gray-900"
+                                    placeholder="••••••••"
                                     required
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                    className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-300 hover:text-primary transition-colors"
                                 >
-                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                    {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
                                 </button>
                             </div>
-                            <label className="label-text-alt text-xs text-gray-500 mt-1 ml-1">
-                                Must contain Uppercase, Lowercase, and 6+ characters.
-                            </label>
+                            <p className="text-[9px] font-bold text-gray-400 italic px-1">
+                                Requirements: 6+ characters, Uppercase & Lowercase inclusion.
+                            </p>
                         </div>
 
-                        {error && <div className="alert alert-error text-sm py-2 rounded-lg">{error}</div>}
+                        <div className="md:col-span-2 pt-4">
+                            {error && (
+                                <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-500 text-xs font-bold rounded-xl flex items-center gap-2">
+                                    <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                                    {error}
+                                </div>
+                            )}
 
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="btn btn-secondary w-full rounded-xl text-lg mt-4 text-white"
-                        >
-                            {loading ? <span className="loading loading-spinner"></span> : 'Sign Up'}
-                        </button>
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full h-16 rounded-2xl bg-gray-900 text-white font-black text-lg shadow-xl shadow-black/5 hover:bg-primary hover:shadow-primary/20 active:scale-[0.98] transition-all disabled:opacity-50"
+                            >
+                                {loading ? "Initializing..." : "Register Profile"}
+                            </button>
+                        </div>
                     </form>
 
-                    <div className="divider text-gray-400">OR</div>
+                    <div className="relative my-10">
+                        <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-100"></div></div>
+                        <div className="relative flex justify-center text-[10px] font-black uppercase tracking-[0.3em]"><span className="bg-[#FAFBFF] px-4 text-gray-300">Fast-Track SSO</span></div>
+                    </div>
 
                     <button
                         onClick={handleGoogleSignIn}
-                        type="button"
-                        className="btn btn-outline w-full rounded-xl hover:bg-base-100 items-center justify-center gap-2"
+                        className="h-16 rounded-2xl bg-white border border-gray-100 flex items-center justify-center gap-3 hover:bg-gray-50 transition-all font-bold text-gray-700 shadow-sm"
                     >
-                        <FcGoogle className="text-xl" /> Sign up with Google
+                        <FcGoogle size={24} />
+                        <span>Continue with Google Architecture</span>
                     </button>
 
-                    <p className="text-center mt-8 text-gray-600">
-                        Already have an account?{' '}
-                        <Link to="/login" className="font-bold text-secondary hover:underline">
-                            Login here
-                        </Link>
-                    </p>
+                    <div className="mt-12 text-center">
+                        <p className="text-gray-400 font-medium">
+                            Already part of the network?{' '}
+                            <Link to="/login" className="font-black text-primary hover:underline">
+                                Execute Login
+                            </Link>
+                        </p>
+                    </div>
                 </div>
             </div>
+
+            <Link to="/" className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-300 hover:text-primary transition-colors">
+                <FaChevronLeft className="text-[8px]" />
+                Back to Command Terminal
+            </Link>
         </div>
     );
 };

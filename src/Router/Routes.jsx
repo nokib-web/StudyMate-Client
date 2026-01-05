@@ -24,6 +24,7 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import AllUsers from "../Pages/Dashboard/AllUsers";
 import DashboardOverview from "../Pages/Dashboard/DashboardOverview";
 import ManageBlogs from "../Pages/Dashboard/ManageBlogs";
+import ManageStories from "../Pages/Dashboard/ManageStories";
 import AddBlog from "../Pages/Dashboard/AddBlog";
 
 
@@ -60,18 +61,7 @@ const router = createBrowserRouter([
                 path: '/create-partner-profile',
                 element: <PrivateRoute><CreatePartnerProfile></CreatePartnerProfile></PrivateRoute>
             },
-            {
-                path: '/my-connections',
-                element: <PrivateRoute><MyConnections></MyConnections></PrivateRoute>
-            },
-            {
-                path: '/my-profile',
-                element: <PrivateRoute><ProfilePage></ProfilePage></PrivateRoute>
-            },
-            {
-                path: '/chat',
-                element: <PrivateRoute><Chat></Chat></PrivateRoute>
-            },
+
             {
                 path: '/about',
                 element: <About />
@@ -113,12 +103,28 @@ const router = createBrowserRouter([
                 element: <AdminRoute><ManageBlogs /></AdminRoute>
             },
             {
+                path: 'manage-stories',
+                element: <AdminRoute><ManageStories /></AdminRoute>
+            },
+            {
                 path: 'add-blog',
                 element: <AdminRoute><AddBlog /></AdminRoute>
             },
             {
                 path: 'edit-blog/:id',
                 element: <AdminRoute><AddBlog /></AdminRoute>
+            },
+            {
+                path: 'my-connections',
+                element: <MyConnections />
+            },
+            {
+                path: 'messages',
+                element: <Chat />
+            },
+            {
+                path: 'profile',
+                element: <ProfilePage />
             }
         ]
     }

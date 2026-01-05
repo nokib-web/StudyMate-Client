@@ -3,40 +3,41 @@ import { FaPaperPlane } from 'react-icons/fa';
 
 const NewsletterSection = () => {
     return (
-        <div className="py-24 bg-base-200">
+        <section className="py-24 bg-white">
             <div className="container mx-auto px-6">
-                <div className="bg-primary rounded-3xl p-8 md:p-16 relative overflow-hidden text-center md:text-left">
-                    {/* Decorative circles */}
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full translate-x-1/3 -translate-y-1/3 blur-3xl"></div>
-                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/3 translate-y-1/3 blur-3xl"></div>
+                <div className="bg-[#F8FAFC] border border-gray-100 rounded-[3rem] p-8 md:p-16 relative overflow-hidden">
+                    {/* Decorative subtle gradients */}
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -mr-32 -mt-32"></div>
+                    <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-400/5 rounded-full blur-[120px] -ml-64 -mb-64"></div>
 
-                    <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
-                        <div className="max-w-xl text-white">
-                            <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">Stay in the Loop</h2>
-                            <p className="text-blue-100 text-lg">
-                                Join our newsletter to get the latest study tips, feature updates, and community highlights delivered to your inbox.
+                    <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
+                        <div className="max-w-xl text-center lg:text-left space-y-4">
+                            <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-black uppercase tracking-widest">Weekly Digest</div>
+                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">Expert study tips in your inbox.</h2>
+                            <p className="text-slate-500 text-lg font-medium leading-relaxed">
+                                Join our community of 50,000+ learners. Get curated resources, study guides, and platform updates delivered weekly.
                             </p>
                         </div>
 
-                        <div className="w-full max-w-md">
-                            <form className="flex flex-col sm:flex-row gap-4">
+                        <div className="w-full max-w-lg bg-white p-2 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100">
+                            <form className="flex flex-col sm:flex-row gap-2">
                                 <input
                                     type="email"
-                                    placeholder="Your email address"
-                                    className="input input-lg w-full rounded-full text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary"
+                                    placeholder="Enter your email"
+                                    className="input input-ghost flex-1 focus:bg-transparent px-6 text-slate-900 focus:outline-none placeholder:text-slate-400 font-medium h-14"
                                 />
-                                <button className="btn btn-secondary btn-lg rounded-full px-8 text-white border-none shadow-lg hover:bg-yellow-500">
-                                    Subscribe <FaPaperPlane className="ml-2" />
+                                <button className="btn btn-primary h-14 rounded-2xl px-8 text-white border-none shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all font-bold">
+                                    Join Now <FaPaperPlane className="ml-2 text-xs opacity-70" />
                                 </button>
                             </form>
-                            <p className="text-blue-200 text-sm mt-4 text-center md:text-left">
-                                No spam, we promise. Unsubscribe anytime.
-                            </p>
                         </div>
                     </div>
                 </div>
+                <p className="text-slate-400 text-[11px] font-bold text-center mt-8 uppercase tracking-[0.2em]">
+                    No spam • Unsubscribe at any time • Privacy focused
+                </p>
             </div>
-        </div>
+        </section>
     );
 };
 

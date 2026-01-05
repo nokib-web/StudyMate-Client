@@ -135,12 +135,12 @@ const Navbar = () => {
                                         <span className="text-xs font-normal opacity-70 block truncate">{user.email}</span>
                                     </li>
                                     <li>
-                                        <Link to="/my-profile" className='py-2'>
+                                        <Link to="/dashboard/profile" className='py-2'>
                                             <FaUser className="w-4 h-4" /> Profile
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/dashboard/all-users" className='py-2'>
+                                        <Link to="/dashboard" className='py-2'>
                                             <MdDashboard className="w-4 h-4" /> Dashboard
                                         </Link>
                                     </li>

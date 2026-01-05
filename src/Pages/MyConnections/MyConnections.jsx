@@ -1,241 +1,264 @@
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-// your Firebase auth context
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import { FaUserEdit, FaTrash, FaDesktop, FaUsers, FaBookReader } from "react-icons/fa";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const MyConnections = () => {
-    const axiosSecure = useAxiosSecure(); // includes Firebase token in headers
-    const { user, loading: userLoading } = useAuth(); // get current Firebase user
-    const [connections, setConnections] = useState([]);
-    const [selected, setSelected] = useState(null);
-    const [loading, setLoading] = useState(false);
+  const axiosSecure = useAxiosSecure();
+  const { user, loading: userLoading } = useAuth();
+  const [connections, setConnections] = useState([]);
+  const [selected, setSelected] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [fetchingData, setFetchingData] = useState(true);
 
-    //  Fetch user’s sent partner requests
-    useEffect(() => {
-        if (!userLoading && user?.email) {
-            axiosSecure
-                .get(`/connections?email=${user.email}`)
-                .then((res) => setConnections(res.data))
-                .catch((err) => console.error("Fetch connections error:", err));
-        }
-    }, [user, userLoading, axiosSecure]);
-
-    //  Handle Delete
-    const handleDelete = (id) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "This connection will be permanently removed.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6  ",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axiosSecure
-                    .delete(`/connections/${id}`)
-                    .then(() => {
-                        setConnections((prev) => prev.filter((connection) => connection._id !== id));
-                        Swal.fire("Deleted!", "Connection removed successfully.", "success");
-                    })
-                    .catch(() => {
-                        Swal.fire("Error!", "Failed to delete connection.", "error");
-                    });
-            }
+  useEffect(() => {
+    if (!userLoading && user?.email) {
+      setFetchingData(true);
+      axiosSecure
+        .get(`/connections?email=${user.email}`)
+        .then((res) => {
+          setConnections(res.data);
+          setFetchingData(false);
+        })
+        .catch((err) => {
+          console.error("Fetch connections error:", err);
+          setFetchingData(false);
         });
-    };
-
-    //  Handle Update
-    const handleUpdate = (e) => {
-        e.preventDefault();
-        setLoading(true);
-        const form = e.target;
-
-        const updatedData = {
-            subject: form.subject.value,
-            studyMode: form.studyMode.value,
-        };
-
-        axiosSecure
-            .put(`/connections/${selected._id}`, updatedData)
-            .then(() => {
-                setConnections((prev) =>
-                    prev.map((connection) =>
-                        connection._id === selected._id ? { ...connection, ...updatedData } : connection
-                    )
-                );
-                Swal.fire("Updated!", "Connection updated successfully.", "success");
-                setSelected(null);
-            })
-            .catch(() => Swal.fire("Error!", "Failed to update connection.", "error"))
-            .finally(() => setLoading(false));
-    };
-
-    if (userLoading) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <span className="loading loading-spinner text-primary"></span>
-            </div>
-        );
     }
+  }, [user, userLoading, axiosSecure]);
 
-    console.log(connections);
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Break Connection?",
+      text: "This will remove your link with this study partner.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#EF4444",
+      cancelButtonColor: "#6B7280",
+      confirmButtonText: "Yes, break link",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .delete(`/connections/${id}`)
+          .then(() => {
+            setConnections((prev) => prev.filter((connection) => connection._id !== id));
+            Swal.fire("Success", "Connection removed.", "success");
+          })
+          .catch(() => {
+            Swal.fire("Error", "Failed to remove connection.", "error");
+          });
+      }
+    });
+  };
 
-   return (
-  <div className="p-4 sm:p-6 lg:p-10 min-h-screen bg-base-100">
-    <h2 className="text-3xl font-extrabold mb-8 text-center my-text-primary">
-      My Connections
-    </h2>
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const form = e.target;
 
-    {/*  Desktop / Laptop Table View */}
-    <div className="hidden md:block overflow-x-auto rounded-2xl shadow-md">
-      <table className="table w-full text-sm lg:text-base">
-        <thead className="bg-base-200 text-base-content">
-          <tr>
-            <th className="py-3">Profile</th>
-            <th className="py-3">Subject</th>
-            <th className="py-3">Study Mode</th>
-            <th className="py-3 text-center">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {connections.map((connection) => (
-            <tr
-              key={connection._id}
-              className="hover:bg-base-300 transition-colors duration-200"
-            >
-              <td className="flex items-center gap-4 py-3">
-                <img
-                  src={connection?.profileImage || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
-                  alt={connection.name}
-                  className="w-12 h-12 rounded-full object-cover border border-base-300"
-                />
-                <span className="font-semibold">{connection.partnerName}</span>
-              </td>
-              <td className="font-medium">{connection.subject}</td>
-              <td>{connection.studyMode}</td>
-              <td className="text-center space-x-2">
-                <button
-                  onClick={() => setSelected(connection)}
-                  className="btn my-btn-primary btn-sm hover:scale-105 shadow-sm hover:shadow-md transition"
-                    type="button"
-                >
-                  Update
-                </button>
-                <button
-                  onClick={() => handleDelete(connection._id)}
-                  className="btn btn-sm btn-error text-white hover:scale-105 transition-transform"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    const updatedData = {
+      subject: form.subject.value,
+      studyMode: form.studyMode.value,
+    };
 
-    {/*  Mobile & Tablet Card View */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:hidden mt-4">
-      {connections.map((connection) => (
-        <div
-          key={connection._id}
-          className="card bg-base-100 border border-base-200 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 rounded-2xl"
-        >
-          <div className="card-body">
-            <div className="flex items-center gap-4 mb-3">
-              <img
-                src={connection?.profileImage || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
-                alt={connection.name}
-                className="w-14 h-14 rounded-full border border-base-300 object-cover"
-              />
-              <div>
-                <h3 className="font-bold text-lg text-base-content">
-                  {connection.partnerName}
-                </h3>
-                
-              </div>
-            </div>
+    axiosSecure
+      .put(`/connections/${selected._id}`, updatedData)
+      .then(() => {
+        setConnections((prev) =>
+          prev.map((connection) =>
+            connection._id === selected._id ? { ...connection, ...updatedData } : connection
+          )
+        );
+        Swal.fire("Updated", "Your preferences have been saved.", "success");
+        setSelected(null);
+      })
+      .catch(() => Swal.fire("Error", "Update failed.", "error"))
+      .finally(() => setLoading(false));
+  };
 
-            <div className=" text-sm text-base-content/80 mb-4">
-                <p className="text-sm text-base-content/70"><span className="font-semibold"> Subject: </span>{connection.subject}</p>
-              <span className="font-semibold">Study Mode:</span>
-              <span>{connection.studyMode}</span>
-            </div>
+  if (userLoading || fetchingData) return <LoadingSpinner message="Curating your network..." />;
 
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={() => setSelected(connection)}
-                className="btn btn-xs btn-outline my-btn-primary"
-              >
-                Update
-              </button>
-              <button
-                onClick={() => handleDelete(connection._id)}
-                className="btn btn-xs btn-error text-white"
-              >
-                Delete
-              </button>
+  return (
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 md:p-8 rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-32 h-32 bg-primary/5 rounded-full -ml-16 -mt-16"></div>
+        <div className="relative z-10">
+          <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">My Connections</h2>
+          <p className="text-gray-500 text-sm font-medium mt-1">Manage your active learning networks and study modes.</p>
+        </div>
+        <div className="px-5 py-2.5 bg-primary/10 text-primary rounded-2xl flex items-center gap-2">
+          <FaUsers />
+          <span className="text-sm font-black uppercase tracking-widest">{connections.length} Active Links</span>
+        </div>
+      </div>
+
+      {connections.length === 0 ? (
+        <div className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-sm">
+          <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-200">
+            <FaUsers size={40} />
+          </div>
+          <h3 className="text-xl font-bold text-gray-800">No connections yet</h3>
+          <p className="text-gray-500 mt-2">Start exploring partners to build your study network.</p>
+        </div>
+      ) : (
+        <>
+          {/* Desktop Table View */}
+          <div className="hidden lg:block bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="table w-full">
+                <thead className="bg-gray-50/50">
+                  <tr>
+                    <th className="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-8 py-5 border-none">Study Partner</th>
+                    <th className="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-8 py-5 border-none">Focus Area</th>
+                    <th className="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-8 py-5 border-none text-center">Modality</th>
+                    <th className="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-8 py-5 border-none text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {connections.map((connection) => (
+                    <tr key={connection._id} className="group hover:bg-gray-50/30 transition-colors">
+                      <td className="px-8 py-5">
+                        <div className="flex items-center gap-4">
+                          <div className="avatar">
+                            <div className="w-12 h-12 rounded-2xl ring-1 ring-gray-100 group-hover:ring-primary/20 transition-all overflow-hidden shadow-sm">
+                              <img
+                                src={connection?.profileImage || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
+                                alt={connection.partnerName}
+                                className="object-cover"
+                              />
+                            </div>
+                          </div>
+                          <span className="font-bold text-gray-900 group-hover:text-primary transition-colors">{connection.partnerName}</span>
+                        </div>
+                      </td>
+                      <td className="px-8 py-5">
+                        <span className="px-4 py-1.5 bg-gray-100 text-gray-600 text-[10px] font-black uppercase tracking-tighter rounded-xl flex items-center gap-2 w-fit">
+                          <FaBookReader size={10} /> {connection.subject}
+                        </span>
+                      </td>
+                      <td className="px-8 py-5 text-center px-8">
+                        <span className={`px-4 py-1.5 text-[10px] font-black uppercase tracking-tighter rounded-xl ring-1 flex items-center gap-2 mx-auto w-fit ${connection.studyMode === 'Online' ? 'bg-blue-50 text-blue-600 ring-blue-100' : 'bg-orange-50 text-orange-600 ring-orange-100'}`}>
+                          <FaDesktop size={10} /> {connection.studyMode}
+                        </span>
+                      </td>
+                      <td className="px-8 py-5 text-right">
+                        <div className="flex justify-end gap-3">
+                          <button
+                            onClick={() => setSelected(connection)}
+                            className="p-2.5 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-2xl transition-all"
+                          >
+                            <FaUserEdit size={16} />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(connection._id)}
+                            className="p-2.5 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all"
+                          >
+                            <FaTrash size={16} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
 
-    {/*  Update Modal */}
-    {selected && (
-      <dialog id="updateModal" open className="modal">
-        <div className="modal-box rounded-2xl">
-          <h3 className="font-bold text-xl mb-4 text-center my-text-primary">
-            Update Connection
-          </h3>
-          <form onSubmit={handleUpdate} className="space-y-4">
-            <label className="block">
-              <span className="text-sm font-medium">Subject:</span>
-              <input
-                name="subject"
-                defaultValue={selected.subject}
-                className="input input-bordered w-full mt-1"
-              />
-            </label>
+          {/* Mobile/Tablet Card View */}
+          <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+            {connections.map((connection) => (
+              <div key={connection._id} className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-5">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center gap-4">
+                    <div className="avatar">
+                      <div className="w-14 h-14 rounded-2xl shadow-sm overflow-hidden border border-gray-50">
+                        <img
+                          src={connection?.profileImage || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
+                          alt={connection.partnerName}
+                          className="object-cover"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="font-black text-gray-900 leading-tight">{connection.partnerName}</h3>
+                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">{connection.studyMode}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button onClick={() => setSelected(connection)} className="p-2 text-primary">
+                      <FaUserEdit size={14} />
+                    </button>
+                    <button onClick={() => handleDelete(connection._id)} className="p-2 text-red-400">
+                      <FaTrash size={14} />
+                    </button>
+                  </div>
+                </div>
+                <div className="pt-4 border-t border-gray-50 flex items-center justify-between">
+                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Subject</span>
+                  <span className="text-xs font-bold text-gray-700">{connection.subject}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
-            <label className="block">
-              <span className="text-sm font-medium">Study Mode:</span>
-              <select
-                name="studyMode"
-                defaultValue={selected.studyMode}
-                className="select select-bordered w-full mt-1"
-              >
-                <option>Online</option>
-                <option>Offline</option>
-              </select>
-            </label>
-
-            <div className="modal-action justify-center">
-              <button
-                type="submit"
-                className="btn my-btn-primary min-w-24"
-                disabled={loading}
-              >
-                {loading ? "Updating..." : "Update"}
-              </button>
-              <button
-                type="button"
-                onClick={() => setSelected(null)}
-                className="btn my-btn-outline"
-              >
-                Cancel
-              </button>
+      {/*  Update Modal */}
+      {selected && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl p-8 space-y-6 animate-in zoom-in-95 duration-300">
+            <div className="text-center">
+              <h3 className="text-2xl font-black text-gray-900 tracking-tight">Update Connection</h3>
+              <p className="text-sm text-gray-500 font-medium">Refine your study preferences</p>
             </div>
-          </form>
+            <form onSubmit={handleUpdate} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Study Subject</label>
+                <input
+                  name="subject"
+                  defaultValue={selected.subject}
+                  className="input input-bordered w-full rounded-2xl focus:ring-2 focus:ring-primary/20 border-gray-200"
+                  placeholder="Enter subject..."
+                  required
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Meeting Modality</label>
+                <select
+                  name="studyMode"
+                  defaultValue={selected.studyMode}
+                  className="select select-bordered w-full rounded-2xl focus:ring-2 focus:ring-primary/20 border-gray-200"
+                >
+                  <option value="Online">Online Sessions</option>
+                  <option value="Offline">In-Person Meetings</option>
+                </select>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setSelected(null)}
+                  className="flex-1 btn btn-ghost rounded-2xl font-bold text-gray-500"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 btn btn-primary rounded-2xl font-bold shadow-lg shadow-primary/20"
+                  disabled={loading}
+                >
+                  {loading ? "Saving..." : "Save Changes"}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </dialog>
-    )}
-  </div>
-);
-
-
+      )}
+    </div>
+  );
 };
 
 export default MyConnections;

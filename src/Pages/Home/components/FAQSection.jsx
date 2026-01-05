@@ -1,52 +1,72 @@
 import React from 'react';
+import { FaChevronRight } from 'react-icons/fa';
 
 const faqs = [
     {
         question: "Is StudyMate free to use?",
-        answer: "Yes! StudyMate is completely free for finding study partners and joining community groups. We plan to introduce premium features for advanced tools in the future."
+        answer: "StudyMate's core collaborative features—finding partners, joining groups, and initial resource sharing—are completely free. We focus on accessibility to democratize quality education for everyone."
     },
     {
         question: "How are profiles verified?",
-        answer: "We use email verification and social account linking to ensure real users. We also have a community reporting system to maintain safety."
+        answer: "We utilize multi-factor verification including school email domain checks and social graph linking. Our 'Verified Partner' badge is awarded after successful collaboration feedback from other learners."
     },
     {
-        question: "Can I find partners for specific exams?",
-        answer: "Absolutely! You can filter partners by specific exams like SAT, GRE, IELTS, or university subjects."
+        question: "Can I find partners for specific academic exams?",
+        answer: "Yes. Our deep-search intelligence allows filtering by specific high-stakes exams (SAT, GRE, IELTS) and ultra-specialized university modules across 50+ categories."
     },
     {
-        question: "Is there a video call feature?",
-        answer: "Currently, we provide chat and resource sharing. We recommend using your preferred video tool once you match, but integrated video is coming soon!"
+        question: "How do I ensure my privacy while matching?",
+        answer: "We employ an 'Anonymized Discovery' layer. Your contact details are never exposed. You communicate through our encrypted workspace until you decide to share further information."
     },
     {
-        question: "How do I ensure my safety?",
-        answer: "We always recommend keeping initial conversations on the platform. Review our safety guidelines and report any suspicious activity immediately."
+        question: "is there integrated video collaboration?",
+        answer: "We currently provide real-time chat and document synchronization. Collaborative whiteboard and low-latency video modules are in active development for our 2026 roadmap."
     }
 ];
 
 const FAQSection = () => {
     return (
-        <div className="py-24 bg-base-100">
-            <div className="container mx-auto px-6 max-w-4xl">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl font-heading font-bold mb-4">Frequently Asked Questions</h2>
-                    <p className="text-lg text-gray-600">Common questions about finding a study partner</p>
+        <section className="py-24 bg-white relative overflow-hidden">
+            {/* Decorative background blurs */}
+            <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -ml-40 pointer-events-none"></div>
+
+            <div className="container mx-auto px-6 max-w-4xl relative z-10">
+                <div className="text-center mb-20 space-y-4">
+                    <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-black uppercase tracking-widest">Knowledge Base</div>
+                    <h2 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">Curious? We have answers.</h2>
+                    <p className="text-lg text-gray-500 font-medium">Everything you need to know about the StudyMate ecosystem.</p>
                 </div>
 
                 <div className="space-y-4">
                     {faqs.map((faq, index) => (
-                        <div key={index} className="collapse collapse-plus bg-base-200 rounded-xl">
-                            <input type="radio" name="my-accordion-3" defaultChecked={index === 0} />
-                            <div className="collapse-title text-xl font-medium">
-                                {faq.question}
+                        <div
+                            key={index}
+                            className="group collapse bg-[#FAFBFF] border border-gray-100 rounded-[2rem] hover:shadow-xl hover:shadow-gray-200/40 transition-all duration-300"
+                        >
+                            <input type="checkbox" className="peer" />
+                            <div className="collapse-title flex items-center justify-between py-6 px-8 text-lg md:text-xl font-black text-gray-800 cursor-pointer">
+                                <span>{faq.question}</span>
+                                <div className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all peer-checked:rotate-90">
+                                    <FaChevronRight className="text-[10px]" />
+                                </div>
                             </div>
-                            <div className="collapse-content">
-                                <p className="text-gray-600">{faq.answer}</p>
+                            <div className="collapse-content px-8 pb-6">
+                                <div className="h-px bg-gray-200/50 w-full mb-6"></div>
+                                <p className="text-gray-500 font-medium leading-[1.8] text-lg">
+                                    {faq.answer}
+                                </p>
                             </div>
                         </div>
                     ))}
                 </div>
+
+                <div className="mt-16 text-center">
+                    <p className="text-gray-400 font-bold text-sm">
+                        Still have questions? <span className="text-primary hover:underline cursor-pointer">Visit the Architect Support Desk</span>
+                    </p>
+                </div>
             </div>
-        </div>
+        </section>
     );
 };
 

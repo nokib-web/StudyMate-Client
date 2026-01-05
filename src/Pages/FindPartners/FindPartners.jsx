@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { FaSearch, FaFilter, FaSortAmountDown } from "react-icons/fa";
+import { FaSearch, FaFilter, FaSortAmountDown, FaChevronDown, FaTimes } from "react-icons/fa";
 import PartnerCard from "../../components/PartnerCard";
 import PartnerCardSkeleton from "../../components/PartnerCardSkeleton";
 import useAxios from "../../hooks/useAxios";
 import useAuth from "../../hooks/useAuth";
+import { useSearchParams } from "react-router";
 
 const FindPartners = () => {
     const [partners, setPartners] = useState([]);
     const [filteredPartners, setFilteredPartners] = useState([]);
     const [loadingData, setLoadingData] = useState(true);
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    // Filters
-    const [searchTerm, setSearchTerm] = useState("");
-    const [categoryFilter, setCategoryFilter] = useState("");
+    // Filters from URL or default
+    const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || "");
+    const [categoryFilter, setCategoryFilter] = useState(searchParams.get('subject') || "");
     const [experienceFilter, setExperienceFilter] = useState("");
     const [sortBy, setSortBy] = useState("newest");
 
@@ -21,7 +23,7 @@ const FindPartners = () => {
     const itemsPerPage = 8;
 
     const axiosInstance = useAxios();
-    const { loading: authLoading } = useAuth(); // If auth loading is needed
+    const { loading: authLoading } = useAuth();
 
     useEffect(() => {
         setLoadingData(true);
@@ -42,7 +44,6 @@ const FindPartners = () => {
     useEffect(() => {
         let result = [...partners];
 
-        // Search by subject or name
         if (searchTerm) {
             result = result.filter(p =>
                 (p.subject && p.subject.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -50,29 +51,24 @@ const FindPartners = () => {
             );
         }
 
-        // Filter by Category (Subject) - Assuming 'subject' acts as category
         if (categoryFilter) {
             result = result.filter(p => p.subject && p.subject.toLowerCase() === categoryFilter.toLowerCase());
         }
 
-        // Filter by Experience
         if (experienceFilter) {
             result = result.filter(p => p.experienceLevel && p.experienceLevel.toLowerCase() === experienceFilter.toLowerCase());
         }
 
-        // Sort
-        if (sortBy === "newest") {
-            // Assuming _id or created_at logic. For now, reverse for semblance of newest if logic absent
-            // result.reverse(); // If data is already newest first? 
-        } else if (sortBy === "name_asc") {
+        if (sortBy === "name_asc") {
             result.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (sortBy === "count_desc") {
+            // Future logic for popularity if needed
         }
 
         setFilteredPartners(result);
-        setCurrentPage(1); // Reset to page 1 on filter
+        setCurrentPage(1);
     }, [searchTerm, categoryFilter, experienceFilter, sortBy, partners]);
 
-    // Pagination Logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredPartners.slice(indexOfFirstItem, indexOfLastItem);
@@ -83,121 +79,152 @@ const FindPartners = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Extract unique subjects for filter dropdown
+    const clearFilters = () => {
+        setSearchTerm("");
+        setCategoryFilter("");
+        setExperienceFilter("");
+        setSearchParams({});
+    };
+
     const subjects = [...new Set(partners.map(p => p.subject))].filter(Boolean);
 
     return (
-        <div className="bg-base-50 min-h-screen py-10">
-            <div className="container mx-auto px-4">
-                <div className="text-center mb-10">
-                    <h2 className="text-4xl font-heading font-bold text-gray-800 mb-4">
-                        Explore <span className="text-primary">Study Partners</span>
-                    </h2>
-                    <p className="text-gray-600 max-w-2xl mx-auto">
-                        Connect with like-minded students, share knowledge, and achieve your academic goals together.
+        <div className="bg-[#FAFBFF] min-h-screen pb-24 relative overflow-hidden">
+            {/* Soft decorative background shapes */}
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/2 rounded-full blur-[120px] -mr-64 -mt-64 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-blue-400/2 rounded-full blur-[100px] -ml-40 pointer-events-none"></div>
+
+            <div className="container mx-auto px-6 relative z-10">
+                {/* Modern Header Section */}
+                <div className="pt-32 pb-16 text-center space-y-6">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full">
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em]">Partner Directory</span>
+                    </div>
+                    <h1 className="text-4xl md:text-6xl font-black text-gray-900 tracking-tight">
+                        Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600 italic">Academic Match</span>
+                    </h1>
+                    <p className="text-gray-500 max-w-2xl mx-auto font-medium text-lg leading-relaxed">
+                        Connect with verified partners, synchronize your schedules, and master your subjects through collaborative intelligence.
                     </p>
                 </div>
 
-                {/* Filter Bar */}
-                <div className="bg-white p-4 rounded-2xl shadow-sm mb-8 flex flex-col lg:flex-row gap-4 justify-between items-center">
-
-                    {/* Search */}
-                    <div className="relative w-full lg:w-1/3">
-                        <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                {/* Refined Filter System */}
+                <div className="bg-white p-3 md:p-4 rounded-[2.5rem] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col lg:flex-row gap-4 items-center mb-12 relative">
+                    {/* Search Field */}
+                    <div className="relative w-full lg:flex-1">
+                        <FaSearch className="absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-300" />
                         <input
                             type="text"
-                            placeholder="Search by name or subject..."
+                            placeholder="Search by name or subject expertise..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="input input-bordered w-full pl-10 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20"
+                            className="w-full h-14 pl-14 pr-6 rounded-3xl bg-[#F8FAFC] border-none focus:ring-2 focus:ring-primary/20 transition-all font-medium text-gray-900 outline-none"
                         />
                     </div>
 
-                    {/* Filters Group */}
-                    <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                        <select
-                            className="select select-bordered rounded-xl w-full sm:w-40 focus:outline-none focus:ring-2 focus:ring-primary/20"
-                            value={categoryFilter}
-                            onChange={(e) => setCategoryFilter(e.target.value)}
-                        >
-                            <option value="">All Subjects</option>
-                            {subjects.map((sub, idx) => (
-                                <option key={idx} value={sub}>{sub}</option>
-                            ))}
-                        </select>
+                    <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                        <div className="relative inline-block w-full sm:w-auto">
+                            <select
+                                className="w-full sm:w-44 h-14 px-6 appearance-none rounded-3xl bg-[#F8FAFC] border-none font-bold text-gray-700 focus:ring-2 focus:ring-primary/20 outline-none cursor-pointer"
+                                value={categoryFilter}
+                                onChange={(e) => setCategoryFilter(e.target.value)}
+                            >
+                                <option value="">All Subjects</option>
+                                {subjects.map((sub, idx) => (
+                                    <option key={idx} value={sub}>{sub}</option>
+                                ))}
+                            </select>
+                            <FaChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
+                        </div>
 
-                        <select
-                            className="select select-bordered rounded-xl w-full sm:w-40 focus:outline-none focus:ring-2 focus:ring-primary/20"
-                            value={experienceFilter}
-                            onChange={(e) => setExperienceFilter(e.target.value)}
-                        >
-                            <option value="">Any Level</option>
-                            <option value="Beginner">Beginner</option>
-                            <option value="Intermediate">Intermediate</option>
-                            <option value="Expert">Expert</option>
-                        </select>
+                        <div className="relative inline-block w-full sm:w-auto">
+                            <select
+                                className="w-full sm:w-44 h-14 px-6 appearance-none rounded-3xl bg-[#F8FAFC] border-none font-bold text-gray-700 focus:ring-2 focus:ring-primary/20 outline-none cursor-pointer"
+                                value={experienceFilter}
+                                onChange={(e) => setExperienceFilter(e.target.value)}
+                            >
+                                <option value="">Expertise Level</option>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Expert">Expert</option>
+                            </select>
+                            <FaChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
+                        </div>
 
-                        <select
-                            className="select select-bordered rounded-xl w-full sm:w-40 focus:outline-none focus:ring-2 focus:ring-primary/20"
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
+                        <button
+                            onClick={clearFilters}
+                            className="h-14 w-14 rounded-full flex items-center justify-center bg-gray-50 text-gray-400 hover:bg-red-50 hover:text-red-500 transition-all border border-transparent hover:border-red-100"
+                            title="Clear all filters"
                         >
-                            <option value="newest">Newest</option>
-                            <option value="name_asc">Name (A-Z)</option>
-                        </select>
+                            <FaTimes />
+                        </button>
                     </div>
                 </div>
 
-                {/* Results Grid */}
+                {/* Results Count & Sort Summary */}
+                <div className="flex items-center justify-between mb-8 px-2">
+                    <p className="text-sm font-black text-gray-400 uppercase tracking-widest">
+                        Results Found: <span className="text-primary">{filteredPartners.length}</span>
+                    </p>
+                    <div className="flex items-center gap-2 text-sm font-bold text-gray-600">
+                        <FaSortAmountDown className="text-xs opacity-50" />
+                        <span>Filter: {categoryFilter || 'All'} • Level: {experienceFilter || 'Any'}</span>
+                    </div>
+                </div>
+
+                {/* Directory Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {loadingData || authLoading ? (
-                        // Skeletons
                         [...Array(8)].map((_, i) => <PartnerCardSkeleton key={i} />)
                     ) : currentItems.length > 0 ? (
                         currentItems.map((partner) => (
                             <PartnerCard key={partner._id} partner={partner} />
                         ))
                     ) : (
-                        <div className="col-span-full py-20 text-center">
-                            <div className="text-6xl mb-4">🔍</div>
-                            <h3 className="text-xl font-bold text-gray-800 mb-2">No partners found</h3>
-                            <p className="text-gray-500">Try adjusting your filters or search terms.</p>
+                        <div className="col-span-full py-32 text-center bg-white border border-dashed border-gray-200 rounded-[3rem]">
+                            <div className="w-24 h-24 bg-[#F8FAFC] rounded-[2rem] flex items-center justify-center mx-auto mb-6 text-gray-200">
+                                <FaSearch size={40} />
+                            </div>
+                            <h3 className="text-2xl font-black text-gray-900 tracking-tight mb-2">No partners located</h3>
+                            <p className="text-gray-500 font-medium mb-8">Try adjusting your filters or expanding your search criteria.</p>
                             <button
-                                onClick={() => { setSearchTerm(''); setCategoryFilter(''); setExperienceFilter(''); }}
-                                className="btn btn-primary btn-outline mt-4 rounded-full"
+                                onClick={clearFilters}
+                                className="btn btn-primary rounded-2xl px-10 h-14 font-bold shadow-xl shadow-primary/20"
                             >
-                                Clear Filters
+                                Reset Directory
                             </button>
                         </div>
                     )}
                 </div>
 
-                {/* Pagination */}
+                {/* Pagination System */}
                 {!loadingData && filteredPartners.length > itemsPerPage && (
-                    <div className="flex justify-center mt-12">
-                        <div className="join">
+                    <div className="flex justify-center mt-20">
+                        <div className="flex items-center gap-2 p-2 bg-white rounded-full shadow-lg shadow-black/5 border border-gray-100">
                             <button
-                                className="join-item btn btn-outline"
+                                className={`w-12 h-12 flex items-center justify-center rounded-full transition-all ${currentPage === 1 ? 'text-gray-200 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-50'}`}
                                 disabled={currentPage === 1}
                                 onClick={() => handlePageChange(currentPage - 1)}
                             >
-                                «
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" /></svg>
                             </button>
+
                             {[...Array(totalPages)].map((_, index) => (
                                 <button
                                     key={index}
-                                    className={`join-item btn ${currentPage === index + 1 ? 'btn-primary text-white' : 'btn-outline'}`}
+                                    className={`w-12 h-12 flex items-center justify-center rounded-full font-black text-xs transition-all ${currentPage === index + 1 ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'text-gray-500 hover:bg-gray-50'}`}
                                     onClick={() => handlePageChange(index + 1)}
                                 >
-                                    {index + 1}
+                                    {String(index + 1).padStart(2, '0')}
                                 </button>
                             ))}
+
                             <button
-                                className="join-item btn btn-outline"
+                                className={`w-12 h-12 flex items-center justify-center rounded-full transition-all ${currentPage === totalPages ? 'text-gray-200 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-50'}`}
                                 disabled={currentPage === totalPages}
                                 onClick={() => handlePageChange(currentPage + 1)}
                             >
-                                »
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
                             </button>
                         </div>
                     </div>
