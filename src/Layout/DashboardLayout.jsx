@@ -21,7 +21,7 @@ const DashboardLayout = () => {
                         </label>
                     </div>
                     <div className="flex-1">
-                        <span className="text-lg font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">StudyMate</span>
+                        <span className="text-lg font-bold bg-linear-to-r from-primary to-blue-600 bg-clip-text text-transparent">StudyMate</span>
                     </div>
                     <div className="flex-none">
                         <div className="avatar w-8 h-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
@@ -41,7 +41,7 @@ const DashboardLayout = () => {
                 <div className="menu p-6 w-80 min-h-full bg-white text-base-content border-r border-gray-100 flex flex-col shadow-xl lg:shadow-none">
                     {/* Logo/Brand */}
                     <div className="mb-10 px-2 flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-blue-600 flex items-center justify-center text-white shadow-lg shadow-primary/20">
+                        <div className="w-10 h-10 rounded-xl bg-linear-to-tr from-primary to-blue-600 flex items-center justify-center text-white shadow-lg shadow-primary/20">
                             <FaChartPie className="text-xl" />
                         </div>
                         <div>
