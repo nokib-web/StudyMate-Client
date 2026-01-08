@@ -17,7 +17,8 @@ const ManageBlogs = () => {
     const fetchBlogs = async () => {
         try {
             const res = await axiosInstance.get('/blogs');
-            setBlogs(res.data);
+            const data = res.data.blogs || res.data;
+            setBlogs(Array.isArray(data) ? data : []);
             setLoading(false);
         } catch (error) {
             console.error("Error fetching blogs:", error);

@@ -12,7 +12,8 @@ const BlogSection = () => {
     useEffect(() => {
         axiosPublic.get('/blogs')
             .then(res => {
-                setBlogs(res.data.slice(0, 3)); // Only show top 3
+                const data = res.data.blogs || res.data;
+                setBlogs(Array.isArray(data) ? data.slice(0, 3) : []);
                 setLoading(false);
             })
             .catch(err => {

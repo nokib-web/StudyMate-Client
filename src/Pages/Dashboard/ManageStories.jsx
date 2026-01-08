@@ -10,13 +10,15 @@ const ManageStories = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const { data: stories = [], refetch, isLoading } = useQuery({
+    const { data, refetch, isLoading } = useQuery({
         queryKey: ['stories'],
         queryFn: async () => {
             const res = await axiosSecure.get('/stories');
             return res.data;
         }
     });
+
+    const stories = data?.stories || [];
 
     const handleAddStory = async (e) => {
         e.preventDefault();

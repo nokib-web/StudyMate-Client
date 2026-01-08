@@ -30,8 +30,10 @@ const FindPartners = () => {
         axiosInstance
             .get("/partners")
             .then((res) => {
-                setPartners(res.data);
-                setFilteredPartners(res.data);
+                const data = res.data.partners || res.data;
+                const partnersArray = Array.isArray(data) ? data : [];
+                setPartners(partnersArray);
+                setFilteredPartners(partnersArray);
                 setLoadingData(false);
             })
             .catch((err) => {

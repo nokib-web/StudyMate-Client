@@ -7,13 +7,15 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 const AllUsers = () => {
     const axiosSecure = useAxiosSecure();
 
-    const { data: users = [], refetch, isLoading } = useQuery({
+    const { data: userData, refetch, isLoading } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
             const res = await axiosSecure.get('/users/all');
             return res.data;
         }
     });
+
+    const users = userData?.users || [];
 
     const handleDeleteUser = (user) => {
         Swal.fire({

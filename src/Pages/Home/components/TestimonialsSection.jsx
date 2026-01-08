@@ -10,7 +10,8 @@ const TestimonialsSection = () => {
     useEffect(() => {
         axiosPublic.get('/stories')
             .then(res => {
-                setStories(res.data);
+                const data = res.data.stories || res.data;
+                setStories(Array.isArray(data) ? data : []);
                 setLoading(false);
             })
             .catch(err => {

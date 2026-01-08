@@ -12,7 +12,8 @@ const Blogs = () => {
     useEffect(() => {
         axiosPublic.get('/blogs')
             .then(res => {
-                setBlogs(res.data);
+                const data = res.data.blogs || res.data;
+                setBlogs(Array.isArray(data) ? data : []);
                 setLoading(false);
             })
             .catch(err => {
