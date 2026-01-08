@@ -36,20 +36,20 @@ const features = [
 
 const FeaturesSection = () => {
     return (
-        <div className="py-24 bg-base-100">
+        <div className="py-24 bg-base-100 border-b border-base-200">
             <div className="container mx-auto px-6 text-center">
-                <h2 className="text-4xl font-heading font-bold mb-4">Why Choose StudyMate?</h2>
-                <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-16">
+                <h2 className="text-4xl font-heading font-bold mb-4 text-base-content">Why Choose StudyMate?</h2>
+                <p className="text-lg opacity-70 max-w-2xl mx-auto mb-16">
                     Everything you need to boost your productivity and make learning a shared journey.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {features.map((feature, index) => (
-                        <div key={index} className="group p-8 border border-base-200 rounded-3xl hover:border-primary/30 hover:shadow-xl transition-all duration-300 bg-white">
+                        <div key={index} className="group p-8 border border-base-200 rounded-3xl hover:border-primary/30 hover:shadow-xl transition-all duration-300 bg-base-100">
                             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 text-primary mb-6 group-hover:scale-110 transition-transform">
                                 <feature.icon className="w-8 h-8" />
                             </div>
-                            <h3 className="text-xl font-bold mb-3">{feature.name}</h3>
-                            <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                            <h3 className="text-xl font-bold mb-3 text-base-content">{feature.name}</h3>
+                            <p className="opacity-70 leading-relaxed font-medium">{feature.description}</p>
                         </div>
                     ))}
                 </div>

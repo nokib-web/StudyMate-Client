@@ -18,14 +18,14 @@ const StatsSection = () => {
     }, [axiosPublic]);
 
     const stats = [
-        { id: 1, name: 'Active Learners', value: statsData.users, icon: FaUserFriends, color: 'text-blue-600', bg: 'bg-blue-50' },
-        { id: 2, name: 'Study Sessions', value: statsData.sessions, icon: FaBook, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-        { id: 3, name: 'Global Partners', value: statsData.partners, icon: FaGlobe, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-        { id: 4, name: 'Verified Reviews', value: statsData.reviews, icon: FaStar, color: 'text-amber-600', bg: 'bg-amber-50' },
+        { id: 1, name: 'Active Learners', value: statsData.users, icon: FaUserFriends, color: 'text-blue-500', bg: 'bg-blue-500/10' },
+        { id: 2, name: 'Study Sessions', value: statsData.sessions, icon: FaBook, color: 'text-indigo-500', bg: 'bg-indigo-500/10' },
+        { id: 3, name: 'Global Partners', value: statsData.partners, icon: FaGlobe, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
+        { id: 4, name: 'Verified Reviews', value: statsData.reviews, icon: FaStar, color: 'text-amber-500', bg: 'bg-amber-500/10' },
     ];
 
     return (
-        <section className="py-20 bg-white border-b border-gray-50">
+        <section className="py-20 bg-base-100 border-b border-base-200">
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
                     {stats.map((stat) => (
@@ -34,10 +34,10 @@ const StatsSection = () => {
                                 <stat.icon size={28} />
                             </div>
                             <div className="space-y-1">
-                                <h3 className="text-4xl font-black text-gray-900 tracking-tight">
+                                <h3 className="text-4xl font-black text-base-content tracking-tight">
                                     {stat.value.toLocaleString()}<span className="text-primary text-2xl">+</span>
                                 </h3>
-                                <p className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">{stat.name}</p>
+                                <p className="text-[11px] font-black opacity-50 uppercase tracking-[0.2em]">{stat.name}</p>
                             </div>
                         </div>
                     ))}

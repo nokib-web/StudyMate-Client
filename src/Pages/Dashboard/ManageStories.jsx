@@ -69,11 +69,11 @@ const ManageStories = () => {
 
     return (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 md:p-8 rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-base-100 p-6 md:p-8 rounded-3xl border border-base-300 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16"></div>
                 <div className="relative z-10">
-                    <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Impact Management</h2>
-                    <p className="text-gray-500 text-sm font-medium mt-1">Curate and showcase the best of StudyMate's community impact.</p>
+                    <h2 className="text-2xl md:text-3xl font-black text-base-content tracking-tight">Impact Management</h2>
+                    <p className="opacity-60 text-sm font-medium mt-1 text-base-content">Curate and showcase the best of StudyMate's community impact.</p>
                 </div>
                 <button
                     onClick={() => setIsModalOpen(true)}
@@ -86,26 +86,26 @@ const ManageStories = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {stories.map((story) => (
-                    <div key={story._id} className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm space-y-4 group relative hover:shadow-xl transition-all duration-300">
+                    <div key={story._id} className="bg-base-100 p-6 rounded-[2rem] border border-base-300 shadow-sm space-y-4 group relative hover:shadow-xl hover:border-primary/20 transition-all duration-300">
                         <div className="flex items-center gap-4">
                             <div className="avatar">
-                                <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-sm border border-gray-50">
+                                <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-sm border border-base-200">
                                     <img src={story.image} alt={story.name} className="object-cover" />
                                 </div>
                             </div>
                             <div>
-                                <h3 className="font-black text-gray-900 leading-tight">{story.name}</h3>
-                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">{story.role}</p>
+                                <h3 className="font-black text-base-content leading-tight">{story.name}</h3>
+                                <p className="text-[10px] opacity-40 font-bold uppercase tracking-widest mt-0.5 text-base-content">{story.role}</p>
                             </div>
                         </div>
-                        <p className="text-sm text-gray-600 font-medium italic line-clamp-3">"{story.content}"</p>
-                        <div className="flex items-center justify-between pt-4 border-t border-gray-50">
+                        <p className="text-sm opacity-70 font-medium italic line-clamp-3 text-base-content">"{story.content}"</p>
+                        <div className="flex items-center justify-between pt-4 border-t border-base-200">
                             <div className="flex text-yellow-500 gap-1 text-xs">
                                 {[...Array(story.rating || 5)].map((_, i) => <FaStar key={i} />)}
                             </div>
                             <button
                                 onClick={() => handleDelete(story._id)}
-                                className="p-2 text-red-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                                className="p-2 opacity-30 hover:opacity-100 hover:text-error hover:bg-error/10 rounded-xl transition-all text-base-content"
                             >
                                 <FaTrash size={14} />
                             </button>
@@ -117,46 +117,46 @@ const ManageStories = () => {
             {/* Add Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-in fade-in duration-300">
-                    <div className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl p-8 space-y-6 animate-in zoom-in-95 duration-300">
+                    <div className="bg-base-100 w-full max-w-lg rounded-[2.5rem] shadow-2xl p-8 space-y-6 animate-in zoom-in-95 duration-300 border border-base-300">
                         <div className="text-center relative">
                             <div className="mx-auto w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-4">
                                 <FaQuoteRight size={24} />
                             </div>
-                            <h3 className="text-2xl font-black text-gray-900 tracking-tight">Draft Success Story</h3>
-                            <p className="text-sm text-gray-500 font-medium">Highlight a community milestone</p>
+                            <h3 className="text-2xl font-black text-base-content tracking-tight">Draft Success Story</h3>
+                            <p className="text-sm opacity-60 font-medium text-base-content">Highlight a community milestone</p>
                         </div>
                         <form onSubmit={handleAddStory} className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Author Name</label>
-                                    <input name="name" className="input input-bordered w-full rounded-2xl focus:ring-2 focus:ring-primary/20 border-gray-100" placeholder="e.g. John Doe" required />
+                                    <label className="text-[10px] font-black uppercase opacity-40 tracking-widest px-1 text-base-content">Author Name</label>
+                                    <input name="name" className="input input-bordered w-full rounded-2xl focus:ring-2 focus:ring-primary/20 border-base-300 bg-base-200 text-base-content" placeholder="e.g. John Doe" required />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Professional Role</label>
-                                    <input name="role" className="input input-bordered w-full rounded-2xl focus:ring-2 focus:ring-primary/20 border-gray-100" placeholder="e.g. CS Student" required />
+                                    <label className="text-[10px] font-black uppercase opacity-40 tracking-widest px-1 text-base-content">Professional Role</label>
+                                    <input name="role" className="input input-bordered w-full rounded-2xl focus:ring-2 focus:ring-primary/20 border-base-300 bg-base-200 text-base-content" placeholder="e.g. CS Student" required />
                                 </div>
                             </div>
 
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Avatar Image URL</label>
-                                <input name="image" className="input input-bordered w-full rounded-2xl focus:ring-2 focus:ring-primary/20 border-gray-100" placeholder="https://..." required />
+                                <label className="text-[10px] font-black uppercase opacity-40 tracking-widest px-1 text-base-content">Avatar Image URL</label>
+                                <input name="image" className="input input-bordered w-full rounded-2xl focus:ring-2 focus:ring-primary/20 border-base-300 bg-base-200 text-base-content" placeholder="https://..." required />
                             </div>
 
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Testimonial Content</label>
-                                <textarea name="content" className="textarea textarea-bordered w-full rounded-2xl focus:ring-2 focus:ring-primary/20 border-gray-100 min-h-[100px]" placeholder="What did they achieve?" required></textarea>
+                                <label className="text-[10px] font-black uppercase opacity-40 tracking-widest px-1 text-base-content">Testimonial Content</label>
+                                <textarea name="content" className="textarea textarea-bordered w-full rounded-2xl focus:ring-2 focus:ring-primary/20 border-base-300 bg-base-200 text-base-content min-h-[100px]" placeholder="What did they achieve?" required></textarea>
                             </div>
 
                             <div className="space-y-1.5">
-                                <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Impact Rating</label>
-                                <select name="rating" className="select select-bordered w-full rounded-2xl focus:ring-2 focus:ring-primary/20 border-gray-100 font-bold text-gray-700">
+                                <label className="text-[10px] font-black uppercase opacity-40 tracking-widest px-1 text-base-content">Impact Rating</label>
+                                <select name="rating" className="select select-bordered w-full rounded-2xl focus:ring-2 focus:ring-primary/20 border-base-300 bg-base-200 text-base-content font-bold">
                                     <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
                                     <option value="4">⭐⭐⭐⭐ (4/5)</option>
                                 </select>
                             </div>
 
                             <div className="flex gap-3 pt-4">
-                                <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 btn btn-ghost rounded-2xl font-bold text-gray-500">Cancel</button>
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 btn btn-ghost rounded-2xl font-bold opacity-50 text-base-content">Cancel</button>
                                 <button type="submit" disabled={loading} className="flex-1 btn btn-primary rounded-2xl font-bold shadow-lg shadow-primary/20">
                                     {loading ? "Publishing..." : "Publish Story"}
                                 </button>

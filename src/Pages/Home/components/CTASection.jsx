@@ -4,9 +4,9 @@ import { FaUserPlus, FaArrowRight } from 'react-icons/fa';
 
 const CTASection = () => {
     return (
-        <section className="py-24 bg-white relative">
+        <section className="py-24 bg-base-100 relative">
             <div className="container mx-auto px-6">
-                <div className="bg-[#0F172A] rounded-[3rem] p-10 md:p-20 relative overflow-hidden text-center shadow-2xl shadow-blue-500/10">
+                <div className="bg-slate-900 border border-white/5 rounded-[3rem] p-10 md:p-20 relative overflow-hidden text-center shadow-2xl">
                     {/* Abstract high-end background pattern */}
                     <div className="absolute inset-0 opacity-20 pointer-events-none">
                         <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary rounded-full blur-[100px] opacity-20"></div>
