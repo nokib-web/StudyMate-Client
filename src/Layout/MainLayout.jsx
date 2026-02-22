@@ -27,13 +27,11 @@ const MainLayout = () => {
 
     return (
         <div className=''>
-            <div>
-                <Navbar />
-            </div>
-            <div className='min-h-screen max-w-7xl mx-auto  '>
-                <Outlet />
-            </div>
-            <div>
+            <Navbar />
+            <div className='pt-[72px]'>
+                <div className='min-h-screen max-w-7xl mx-auto'>
+                    <Outlet />
+                </div>
                 <Footer />
             </div>
         </div>

@@ -45,7 +45,7 @@ const BlogDetails = () => {
                     <FaArrowLeft className="mr-2" /> Back to Articles
                 </Link>
 
-                <article className="bg-white rounded-3xl shadow-sm overflow-hidden">
+                <article className="bg-base-100 rounded-3xl shadow-sm overflow-hidden">
                     <figure className="relative h-96 w-full">
                         <img
                             src={blog.image || "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80&w=1200"}
@@ -65,7 +65,7 @@ const BlogDetails = () => {
                     </figure>
 
                     <div className="p-8 md:p-12">
-                        <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+                        <div className="prose prose-lg max-w-none text-base-content/80 leading-relaxed">
                             {/* Assuming content is plain text or simple markdown for this demo. 
                                 In a real app, use a markdown renderer or HTML parser if stored as rich text.
                             */}
@@ -77,10 +77,10 @@ const BlogDetails = () => {
                         </div>
 
                         {/* Tags */}
-                        <div className="mt-12 pt-8 border-t border-gray-100">
+                        <div className="mt-12 pt-8 border-t border-base-200">
                             <div className="flex items-center gap-2">
                                 <FaTag className="text-primary" />
-                                <span className="font-bold text-gray-700">Tags:</span>
+                                <span className="font-bold text-base-content">Tags:</span>
                                 <div className="flex flex-wrap gap-2">
                                     <span className="badge badge-ghost">Education</span>
                                     <span className="badge badge-ghost">Study Tips</span>

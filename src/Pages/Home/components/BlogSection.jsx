@@ -63,7 +63,7 @@ const BlogSection = () => {
                                     alt={blog.title}
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                 />
-                                <div className="absolute top-6 left-6 badge bg-white/90 backdrop-blur-md border-none text-gray-900 text-[10px] font-black uppercase tracking-widest px-4 py-3 h-auto">
+                                <div className="absolute top-6 left-6 badge bg-base-100/90 backdrop-blur-md border-none text-base-content text-[10px] font-black uppercase tracking-widest px-4 py-3 h-auto shadow-sm">
                                     {blog.category || "Education"}
                                 </div>
                             </div>
