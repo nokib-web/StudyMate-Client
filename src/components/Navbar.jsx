@@ -40,6 +40,7 @@ const Navbar = () => {
         { name: 'Home', path: '/' },
         { name: 'Find Partners', path: '/find-partners' },
         { name: 'Be a Partner', path: '/create-partner-profile' },
+        { name: 'Blog', path: '/blogs' },
         { name: 'About', path: '/about' },
         { name: 'Contact', path: '/contact' },
     ];
